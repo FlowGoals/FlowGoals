@@ -7,7 +7,7 @@ import { Layout, Text, Section, SectionContent } from "react-native-rapi-ui";
 export default function ({
   navigation,
   route,
-}: NativeStackScreenProps<MainTabsParamList, "Goals">) {
+}: NativeStackScreenProps<MainTabsParamList, "Friends">) {
   return (
     <Layout>
       <View

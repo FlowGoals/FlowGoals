@@ -17,7 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ({
   navigation,
   route,
-}: NativeStackScreenProps<MainTabsParamList, "Home">) {
+}: NativeStackScreenProps<MainTabsParamList, "Goals">) {
   const { isDarkmode, setTheme } = useTheme();
   //   const auth = getAuth();
   return (

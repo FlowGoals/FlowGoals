@@ -6,9 +6,9 @@ import TabBarIcon from "../components/utils/TabBarIcon";
 import TabBarText from "../components/utils/TabBarText";
 import { MainTabsParamList } from "./types";
 
-import Home from "../screens/Goals";
+import Friends from "../screens/Friends";
 import Profile from "../screens/Profile";
-import Goals from "../screens/Friends";
+import Goals from "../screens/Goals";
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
 const MainTabs = () => {
@@ -24,8 +24,8 @@ const MainTabs = () => {
       }}
     >
       <Tabs.Screen
-        name="Home"
-        component={Home}
+        name="Goals"
+        component={Goals}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Goals" />
@@ -36,8 +36,8 @@ const MainTabs = () => {
         }}
       />
       <Tabs.Screen
-        name="Goals"
-        component={Goals}
+        name="Friends"
+        component={Friends}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Friends" />
