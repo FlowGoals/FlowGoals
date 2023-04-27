@@ -1,10 +1,10 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainTabs from "./MainTabs";
+import MainTabs from './MainTabs';
 
 const MainStack = createNativeStackNavigator();
-const Main = () => {
+function Main() {
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -14,6 +14,6 @@ const Main = () => {
       <MainStack.Screen name="MainTabs" component={MainTabs} />
     </MainStack.Navigator>
   );
-};
+}
 
 export default Main;

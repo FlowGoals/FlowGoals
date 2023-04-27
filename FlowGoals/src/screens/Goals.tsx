@@ -1,54 +1,55 @@
-import React from "react";
-import { View, Linking } from "react-native";
-import { MainTabsParamList } from "../navigation/types";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import React from 'react';
+import { View } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout,
-  Button,
   Text,
   TopNav,
   Section,
   SectionContent,
   useTheme,
   themeColor,
-} from "react-native-rapi-ui";
-import { Ionicons } from "@expo/vector-icons";
+} from 'react-native-rapi-ui';
+import { Ionicons } from '@expo/vector-icons';
+import { MainTabsParamList } from '../navigation/types';
 
-export default function ({
+export default function Goals({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   navigation,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   route,
-}: NativeStackScreenProps<MainTabsParamList, "Goals">) {
+}: NativeStackScreenProps<MainTabsParamList, 'Goals'>) {
   const { isDarkmode, setTheme } = useTheme();
   //   const auth = getAuth();
   return (
     <Layout>
       <TopNav
         middleContent="Your Goals"
-        rightContent={
+        rightContent={(
           <Ionicons
-            name={isDarkmode ? "sunny" : "moon"}
+            name={isDarkmode ? 'sunny' : 'moon'}
             size={20}
             color={isDarkmode ? themeColor.white100 : themeColor.dark}
           />
-        }
+        )}
         rightAction={() => {
           if (isDarkmode) {
-            setTheme("light");
+            setTheme('light');
           } else {
-            setTheme("dark");
+            setTheme('dark');
           }
         }}
       />
       <View
         style={{
           flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <Section style={{ marginTop: 20 }}>
           <SectionContent>
-            <Text fontWeight="bold" style={{ textAlign: "center" }}>
+            <Text fontWeight="bold" style={{ textAlign: 'center' }}>
               Goals Screen
             </Text>
             {/* <Button

@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from 'react';
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from '@react-navigation/native';
 
-import Main from "./MainStack";
+import Main from './MainStack';
 // import Auth from "./AuthStack";
 // import Loading from "../screens/utils/Loading";
 
-export default () => {
+export default function App() {
   //   const auth = useContext(AuthContext);
   //   const user = auth.user;
   return (
@@ -17,4 +17,4 @@ export default () => {
       <Main />
     </NavigationContainer>
   );
-};
+}
