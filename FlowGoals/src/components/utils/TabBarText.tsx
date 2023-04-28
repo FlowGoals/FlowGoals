@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, themeColor, useTheme } from 'react-native-rapi-ui';
+import { Text } from 'react-native-rapi-ui';
+import { colors } from './Colors';
 
 export default function TabBarText({ title, focused }: { title: string; focused: boolean }) {
-  const { isDarkmode } = useTheme();
   let color = 'rgb(143, 155, 179)';
   if (focused) {
-    color = isDarkmode ? themeColor.white100 : themeColor.primary;
+    color = colors.white100;
   }
   return (
     <Text
