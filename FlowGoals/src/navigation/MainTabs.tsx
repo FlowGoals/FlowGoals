@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { themeColor, useTheme } from 'react-native-rapi-ui';
 import TabBarIcon from '../components/utils/TabBarIcon';
 import TabBarText from '../components/utils/TabBarText';
+import { colors } from '../components/utils/Colors';
 import { MainTabsParamList } from './types';
 
 import Friends from '../screens/Friends';
@@ -12,7 +12,6 @@ import Goals from '../screens/Goals';
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
 function MainTabs() {
-  const { isDarkmode } = useTheme();
   const tabBarLabel = ({ focused, title }: { focused: boolean, title: string }) => (
     <TabBarText focused={focused} title={title} />
   );
@@ -24,8 +23,8 @@ function MainTabs() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          borderTopColor: isDarkmode ? themeColor.dark100 : '#c0c0c0',
-          backgroundColor: isDarkmode ? themeColor.dark200 : '#ffffff',
+          borderTopColor: colors.dark100,
+          backgroundColor: colors.dark200,
         },
       }}
     >

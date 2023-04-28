@@ -4,7 +4,7 @@ import Navigation from './src/navigation';
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme="dark">
       <Navigation />
     </ThemeProvider>
   );
