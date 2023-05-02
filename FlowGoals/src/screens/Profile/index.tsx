@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout, Text, Section, SectionContent,
 } from 'react-native-rapi-ui';
-import { MainTabsParamList } from '../navigation/types';
+import { MainTabsParamList } from '../../navigation/types';
 
 export default function Profile({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

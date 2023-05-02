@@ -3,12 +3,12 @@ import { View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout,
-  Text,
   TopNav,
-  Section,
-  SectionContent,
 } from 'react-native-rapi-ui';
-import { MainTabsParamList } from '../navigation/types';
+import { Ionicons } from '@expo/vector-icons';
+import { MainTabsParamList } from '../../navigation/types';
+import GoalsList from './GoalsList';
+import { colors } from '../../components/utils/Colors';
 
 export default function Goals({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,6 +21,27 @@ export default function Goals({
     <Layout>
       <TopNav
         middleContent="Your Goals"
+        leftContent={(
+          <Ionicons
+            name="grid"
+            size={20}
+            color={colors.white100}
+          />
+        )}
+        rightContent={(
+          <Ionicons
+            name="add"
+            size={30}
+            color={colors.white100}
+          />
+        )}
+        // rightAction={() => {
+        //   if (isDarkmode) {
+        //     setTheme('light');
+        //   } else {
+        //     setTheme('dark');
+        //   }
+        // }}
       />
       <View
         style={{
@@ -29,12 +50,8 @@ export default function Goals({
           justifyContent: 'center',
         }}
       >
-        <Section style={{ marginTop: 20 }}>
-          <SectionContent>
-            <Text fontWeight="bold" style={{ textAlign: 'center' }}>
-              Goals Screen
-            </Text>
-            {/* <Button
+        <GoalsList />
+        {/* <Button
               text="Go to second screen"
               onPress={() => {
                 navigation.navigate("SecondScreen");
@@ -42,19 +59,8 @@ export default function Goals({
               style={{
                 marginTop: 10,
               }}
-            />
-            <Button
-              status="danger"
-              text="Logout"
-              onPress={() => {
-                signOut(auth);
-              }}
-              style={{
-                marginTop: 10,
-              }}
             /> */}
-          </SectionContent>
-        </Section>
+
       </View>
     </Layout>
   );
