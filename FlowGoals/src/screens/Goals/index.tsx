@@ -20,19 +20,19 @@ export default function Goals({
   return (
     <Layout>
       <TopNav
-        middleContent="Your Goals"
+        middleContent="Dashboard"
         leftContent={(
           <Ionicons
             name="grid"
             size={20}
-            color={colors.white100}
+            color={colors.dark100}
           />
         )}
         rightContent={(
           <Ionicons
             name="add"
             size={30}
-            color={colors.white100}
+            color={colors.dark100}
           />
         )}
         // rightAction={() => {
