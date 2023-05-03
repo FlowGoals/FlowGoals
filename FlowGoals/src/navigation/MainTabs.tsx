@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import TabBarIcon from '../components/utils/TabBarIcon';
-import TabBarText from '../components/utils/TabBarText';
+import TabBarIcon from './TabBarIcon';
+import TabBarText from './TabBarText';
 import { colors } from '../components/utils/Colors';
 import { MainTabsParamList } from './types';
 
@@ -23,8 +23,8 @@ function MainTabs() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          borderTopColor: colors.dark100,
-          backgroundColor: colors.dark200,
+          borderTopColor: colors.white,
+          backgroundColor: colors.white,
         },
       }}
     >
