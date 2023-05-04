@@ -1,6 +1,7 @@
+// for the stack
 export type MainStackParamList = {
   MainTabs: undefined;
-  SecondScreen: undefined;
+  Settings: undefined;
 };
 
 export type AuthStackParamList = {
@@ -9,6 +10,7 @@ export type AuthStackParamList = {
   ForgetPassword: undefined;
 };
 
+// for the bottom tab screens
 export type MainTabsParamList = {
   Friends: undefined;
   Profile: undefined;

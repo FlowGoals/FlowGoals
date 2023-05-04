@@ -51,16 +51,6 @@ export default function Goals({
         }}
       >
         <GoalsList />
-        {/* <Button
-              text="Go to second screen"
-              onPress={() => {
-                navigation.navigate("SecondScreen");
-              }}
-              style={{
-                marginTop: 10,
-              }}
-            /> */}
-
       </View>
     </Layout>
   );
