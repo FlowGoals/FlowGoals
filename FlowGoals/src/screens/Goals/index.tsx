@@ -1,21 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout,
   TopNav,
 } from 'react-native-rapi-ui';
 import { Ionicons } from '@expo/vector-icons';
-import { MainTabsParamList } from '../../navigation/types';
+import { GoalsScreenProp } from '../../navigation/types';
 import GoalsList from './GoalsList';
 import { colors } from '../../components/utils/Colors';
 
-export default function Goals({
+export default function Goals(props: GoalsScreenProp) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  navigation,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  route,
-}: NativeStackScreenProps<MainTabsParamList, 'Goals'>) {
+  const { navigation } = props;
   //   const auth = getAuth();
   return (
     <Layout>
@@ -35,6 +31,7 @@ export default function Goals({
             color={colors.dark100}
           />
         )}
+        height={50}
         // rightAction={() => {
         //   if (isDarkmode) {
         //     setTheme('light');

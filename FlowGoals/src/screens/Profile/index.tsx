@@ -2,12 +2,11 @@ import React from 'react';
 import {
   View, ScrollView, Pressable, StyleSheet,
 } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout, Text,
 } from 'react-native-rapi-ui';
 import { Ionicons } from '@expo/vector-icons';
-import { MainTabsParamList } from '../../navigation/types';
+import { ProfileScreenProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
 
 const styles = StyleSheet.create({
@@ -23,23 +22,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Profile({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  navigation,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  route,
-}: NativeStackScreenProps<MainTabsParamList, 'Profile'>) {
+export default function Profile(props: ProfileScreenProp) {
+  const { navigation } = props;
   return (
     <Layout>
       <ScrollView>
-        <View style={{ height: 200, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ height: 150, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Profile Pic</Text>
+        </View>
+        <View style={{ alignItems: 'center', margin: 20 }}>
+          <Text>Display Awards Here</Text>
         </View>
         <Pressable
           style={styles.container}
-          // onPress={() => {
-          //   navigation.navigate('Settings');
-          // }}
+          onPress={() => {
+            navigation.navigate('settings');
+          }}
         >
           <Text>Settings</Text>
           <Ionicons
@@ -47,7 +45,12 @@ export default function Profile({
             size={20}
           />
         </Pressable>
-        <Pressable style={styles.container}>
+        <Pressable
+          style={styles.container}
+          onPress={() => {
+            navigation.navigate('faq');
+          }}
+        >
           <Text>FAQ</Text>
           <Ionicons
             name="chevron-forward-outline"

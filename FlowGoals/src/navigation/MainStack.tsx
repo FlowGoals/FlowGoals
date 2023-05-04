@@ -2,9 +2,11 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainTabs from './MainTabs';
-// import Settings from '../screens/Profile/Settings';
+import { MainStackParamList } from './types';
+import Settings from '../screens/Profile/Settings';
+import FAQ from '../screens/Profile/FAQ';
 
-const MainStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
   return (
     <MainStack.Navigator
@@ -13,7 +15,9 @@ function Main() {
       }}
     >
       <MainStack.Screen name="MainTabs" component={MainTabs} />
-      {/* <MainStack.Screen name="Settings" component={Settings} /> */}
+      <MainStack.Screen name="settings" component={Settings} />
+      <MainStack.Screen name="faq" component={FAQ} />
+
     </MainStack.Navigator>
   );
 }
