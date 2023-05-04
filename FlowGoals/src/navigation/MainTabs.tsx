@@ -29,7 +29,7 @@ function MainTabs() {
       }}
     >
       <Tabs.Screen
-        name="Goals"
+        name="goals"
         component={Goals}
         options={{
           tabBarLabel: ({ focused }) => tabBarLabel({ focused, title: 'Goals' }),
@@ -37,7 +37,7 @@ function MainTabs() {
         }}
       />
       <Tabs.Screen
-        name="Friends"
+        name="friends"
         component={Friends}
         options={{
           tabBarLabel: ({ focused }) => tabBarLabel({ focused, title: 'Friends' }),
@@ -45,7 +45,7 @@ function MainTabs() {
         }}
       />
       <Tabs.Screen
-        name="Profile"
+        name="profile"
         component={Profile}
         options={{
           tabBarLabel: ({ focused }) => tabBarLabel({ focused, title: 'Profile' }),

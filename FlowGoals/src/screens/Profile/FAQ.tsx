@@ -3,17 +3,17 @@ import {
   Layout, Text, TopNav,
 } from 'react-native-rapi-ui';
 import {
-  ScrollView, Pressable, StyleSheet,
+  ScrollView, View, StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../components/utils/Colors';
-import { SettingsProp } from '../../navigation/types';
+import { FAQProp } from '../../navigation/types';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     height: 50,
     padding: 10,
@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Settings(props: SettingsProp) {
+export default function Faq(props: FAQProp) {
   const { navigation } = props;
   return (
     <Layout>
       <TopNav
-        middleContent="Settings"
+        middleContent="FAQ"
         leftContent={(
           <Ionicons
             name="arrow-back-outline"
@@ -41,22 +41,9 @@ export default function Settings(props: SettingsProp) {
         height={50}
       />
       <ScrollView>
-        <Pressable
-          style={styles.container}
-        >
-          <Text>Notifications</Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={20}
-          />
-        </Pressable>
-        <Pressable style={styles.container}>
-          <Text>Theme</Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={20}
-          />
-        </Pressable>
+        <View style={styles.container}>
+          <Text>Hardcoded text</Text>
+        </View>
       </ScrollView>
     </Layout>
   );

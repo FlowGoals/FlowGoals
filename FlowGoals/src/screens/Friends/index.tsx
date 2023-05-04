@@ -1,17 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   Layout, Text, Section, SectionContent,
 } from 'react-native-rapi-ui';
-import { MainTabsParamList } from '../../navigation/types';
+import { FriendsScreenProp } from '../../navigation/types';
 
-export default function Friends({
+export default function Friends(props: FriendsScreenProp) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  navigation,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  route,
-}: NativeStackScreenProps<MainTabsParamList, 'Friends'>) {
+  const { navigation } = props;
   return (
     <Layout>
       <View
