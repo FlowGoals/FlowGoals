@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 export default function Profile(props: ProfileScreenProp) {
   const { navigation } = props;
   return (
-    <Layout>
+    <Layout backgroundColor={colors.white}>
       <ScrollView>
         <View style={{ height: 150, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Profile Pic</Text>

@@ -11,7 +11,7 @@ export type AuthStackParamList = {
   ForgetPassword: undefined;
 };
 
-// for the MainStack.screen
+// for each MainStack.screen
 export type MainStackParamList = {
   MainTabs: undefined;
   settings: undefined;

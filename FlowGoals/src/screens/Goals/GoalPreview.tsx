@@ -72,7 +72,6 @@ function GoalPreview({ goal }: GoalPreviewProps) {
           setModalVisible(!modalVisible);
         }}
       >
-
         <View style={styles.modalView}>
           <View style={{ position: 'absolute', top: 10, right: 10 }}>
             <Ionicons
@@ -82,8 +81,10 @@ function GoalPreview({ goal }: GoalPreviewProps) {
               onPress={() => setModalVisible(!modalVisible)}
             />
           </View>
+          <View>
+            <Text>{goal.text}</Text>
+          </View>
         </View>
-
       </Modal>
       <Pressable
         style={[styles.container, styles.buttonOpen]}
