@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 export default function Faq(props: FAQProp) {
   const { navigation } = props;
   return (
-    <Layout>
+    <Layout backgroundColor={colors.white}>
       <TopNav
         middleContent="FAQ"
         leftContent={(

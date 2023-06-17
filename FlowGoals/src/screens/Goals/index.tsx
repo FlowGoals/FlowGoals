@@ -32,13 +32,9 @@ export default function Goals(props: GoalsScreenProp) {
           />
         )}
         height={50}
-        // rightAction={() => {
-        //   if (isDarkmode) {
-        //     setTheme('light');
-        //   } else {
-        //     setTheme('dark');
-        //   }
-        // }}
+        rightAction={() => {
+          navigation.navigate('newgoal');
+        }}
       />
       <View
         style={{

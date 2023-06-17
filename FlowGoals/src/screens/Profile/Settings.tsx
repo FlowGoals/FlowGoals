@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 export default function Settings(props: SettingsProp) {
   const { navigation } = props;
   return (
-    <Layout>
+    <Layout backgroundColor={colors.white}>
       <TopNav
         middleContent="Settings"
         leftContent={(

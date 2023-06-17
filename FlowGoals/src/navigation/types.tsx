@@ -11,11 +11,12 @@ export type AuthStackParamList = {
   ForgetPassword: undefined;
 };
 
-// for the MainStack.screen
+// for each MainStack.screen
 export type MainStackParamList = {
   MainTabs: undefined;
   settings: undefined;
   faq: undefined;
+  newgoal: undefined;
 };
 
 // for each Tabs.screen
@@ -34,6 +35,11 @@ MainStackParamList,
 export type FAQProp = NativeStackScreenProps<
 MainStackParamList,
 'faq'
+>;
+
+export type NewGoalProp = NativeStackScreenProps<
+MainStackParamList,
+'newgoal'
 >;
 
 // Tabs.screen component props
