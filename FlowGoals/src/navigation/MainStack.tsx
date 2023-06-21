@@ -1,5 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import * as SQLite from 'expo-sqlite';
 import MainTabs from './MainTabs';
 import { MainStackParamList } from './types';
 import Settings from '../screens/Profile/Settings';
@@ -8,6 +9,7 @@ import NewGoal from '../screens/Goals/NewGoal';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
+  // const db = SQLite.openDatabase('localStorage.db');
   return (
     <MainStack.Navigator
       screenOptions={{
