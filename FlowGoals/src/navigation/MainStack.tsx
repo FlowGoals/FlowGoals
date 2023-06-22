@@ -5,12 +5,12 @@ import { MainStackParamList } from './types';
 import Settings from '../screens/ProfileScreen/Settings';
 import FAQ from '../screens/ProfileScreen/FAQ';
 import NewGoal from '../screens/GoalsScreen/NewGoal';
-import { CREATE_GOAL_TABLE } from '../services/localService';
+import { CREATE_TABLE_GOAL } from '../services/sqliteService';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
   useEffect(() => {
-    CREATE_GOAL_TABLE().catch((err) => console.log(err?.message));
+    CREATE_TABLE_GOAL().catch((err) => console.log(err?.message));
   }, []);
   return (
     <MainStack.Navigator
