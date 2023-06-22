@@ -1,10 +1,10 @@
 export interface Goal {
   name: string,
-  start_val: number,
-  cur_val: number,
-  end_val: number,
-  created_dt: string,
-  interval: number,
+  start: number,
+  end?: number,
+  current: number,
+  interval: number, // 0 for non-repeating goals
+  end_date?: string,
   category?: string,
-  color?: string,
+  color: string,
 }

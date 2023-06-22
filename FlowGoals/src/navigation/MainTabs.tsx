@@ -6,9 +6,9 @@ import TabBarText from './TabBarText';
 import { colors } from '../components/utils/Colors';
 import { MainTabsParamList } from './types';
 
-import Friends from '../screens/Friends';
-import Profile from '../screens/Profile';
-import Goals from '../screens/Goals';
+import Friends from '../screens/FriendsScreen';
+import Profile from '../screens/ProfileScreen';
+import Goals from '../screens/GoalsScreen';
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
 function MainTabs() {
