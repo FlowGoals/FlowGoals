@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import * as SQLite from 'expo-sqlite';
 import MainTabs from './MainTabs';
 import { MainStackParamList } from './types';
 import Settings from '../screens/Profile/Settings';
 import FAQ from '../screens/Profile/FAQ';
 import NewGoal from '../screens/Goals/NewGoal';
+import { CREATE_GOAL_TABLE } from '../services/localService';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
-  // const db = SQLite.openDatabase('localStorage.db');
+  useEffect(() => {
+    CREATE_GOAL_TABLE().catch((err) => console.log(err?.message));
+  }, []);
   return (
     <MainStack.Navigator
       screenOptions={{
