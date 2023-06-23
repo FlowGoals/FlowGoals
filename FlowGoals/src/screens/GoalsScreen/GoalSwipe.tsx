@@ -9,7 +9,7 @@ import {
 const styles = StyleSheet.create({
   leftAction: {
     flex: 1,
-    backgroundColor: '#45f248',
+    backgroundColor: '#64DD17',
     borderRadius: 10,
     justifyContent: 'center',
   },
@@ -63,8 +63,8 @@ function GoalSwipe({ children }: GoalSwipeProps) {
 
   const renderLeftActions = (progress: AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
-      {renderLeftAction('Edit', '#ffab00', 128, progress)}
-      {renderLeftAction('Delete', '#dd2c00', 64, progress)}
+      {renderLeftAction('Edit', '#FFB74D', 128, progress)}
+      {renderLeftAction('Delete', '#FF5252', 64, progress)}
     </View>
   );
 
