@@ -20,11 +20,9 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
+    flexDirection: 'row',
     height: 100,
     borderRadius: 10,
-    // marginLeft: 10,
-    // marginRight: 10,
-    marginBottom: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.columbiaBlue,
@@ -45,9 +43,9 @@ export default function GoalsList() {
     <View style={styles.container}>
       <StatusBar />
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView style={{ marginHorizontal: 10 }}>
           {TEMPDATA.map((item) => (
-            <View key={item.text}>
+            <View key={item.text} style={{ marginBottom: 10 }}>
               <GoalSwipe goal={item}>
                 <Pressable style={styles.preview}>
                   <Text>{item.text}</Text>

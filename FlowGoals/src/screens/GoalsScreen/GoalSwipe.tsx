@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   leftAction: {
     flex: 1,
     backgroundColor: '#45f248',
+    borderRadius: 10,
     justifyContent: 'center',
   },
   actionText: {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
   rightAction: {
     alignItems: 'center',
     flex: 1,
+    borderRadius: 10,
     justifyContent: 'center',
   },
 });
@@ -94,7 +96,7 @@ function GoalSwipe({ goal, children }: GoalPreviewProps) {
         rightThreshold={40}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
-        containerStyle={styles.container}
+        // containerStyle={styles.container}
       >
         {children}
       </Swipeable>
