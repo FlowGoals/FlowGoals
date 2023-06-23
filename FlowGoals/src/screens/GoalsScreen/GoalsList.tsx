@@ -5,8 +5,10 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  Text,
+  Pressable,
 } from 'react-native';
-import GoalPreview from './GoalPreview';
+import GoalSwipe from './GoalSwipe';
 import { colors } from '../../components/utils/Colors';
 
 const styles = StyleSheet.create({
@@ -16,6 +18,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingTop: 10,
   },
+  preview: {
+    flex: 1,
+    height: 100,
+    borderRadius: 10,
+    // marginLeft: 10,
+    // marginRight: 10,
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.columbiaBlue,
+  },
 });
 
 const TEMPDATA = [
@@ -24,15 +37,6 @@ const TEMPDATA = [
   },
   {
     text: 'Item text 2',
-  },
-  {
-    text: 'Item text 3',
-  },
-  {
-    text: 'Item text 4',
-  },
-  {
-    text: 'Item text 5',
   },
 ];
 
@@ -44,7 +48,11 @@ export default function GoalsList() {
         <ScrollView>
           {TEMPDATA.map((item) => (
             <View key={item.text}>
-              <GoalPreview goal={item} />
+              <GoalSwipe goal={item}>
+                <Pressable style={styles.preview}>
+                  <Text>{item.text}</Text>
+                </Pressable>
+              </GoalSwipe>
             </View>
           )) }
         </ScrollView>
