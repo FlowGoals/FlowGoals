@@ -89,7 +89,7 @@ export default function GoalsList() {
                         <Text style={styles.nameText}>{goal.name}</Text>
                       </View>
                       <View style={{ flex: 0.5, flexDirection: 'row' }}>
-                        <Text>{`${goal.interval} / ${goal.end}`}</Text>
+                        <Text>{`${goal.current} / ${goal.end}`}</Text>
                       </View>
                     </Pressable>
                   </GoalSwipe>
