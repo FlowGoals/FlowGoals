@@ -27,6 +27,20 @@ const CREATE_TABLE_GOAL = () => new Promise<void>((resolve, reject) => {
   });
 });
 
+const DROP_TABLE_GOAL = () => new Promise<void>((resolve, reject) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'DROP TABLE IF EXISTS goals;',
+      [],
+      () => resolve(),
+      (_, error) => {
+        reject(error);
+        return true; // rollback transaction
+      },
+    );
+  });
+});
+
 const MUTATION_ADD_GOAL = (goal: Goal) => new Promise<number | undefined>((resolve, reject) => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -43,7 +57,7 @@ const MUTATION_ADD_GOAL = (goal: Goal) => new Promise<number | undefined>((resol
         goal.color,
       ],
       (_, result) => resolve(result.insertId),
-      (_, error) => {
+      (_, error) => { // throws error on UNIQUE constraint failure
         reject(error);
         return true; // rollback transaction
       },
@@ -66,12 +80,12 @@ const QUERY_GET_GOALS = () => new Promise<Goal[]>((resolve, reject) => {
   });
 });
 
-const MUTATION_DELETE_GOAL = (name: string) => new Promise<void>((resolve, reject) => {
+const MUTATION_DELETE_GOAL = (name: string) => new Promise<number>((resolve, reject) => {
   db.transaction((tx) => {
     tx.executeSql(
       'DELETE FROM goals WHERE name = ?;',
       [name],
-      () => resolve(),
+      (_, result) => resolve(result.rowsAffected), // returns 0 if no match
       (_, error) => {
         reject(error);
         return true; // rollback transaction
@@ -82,6 +96,7 @@ const MUTATION_DELETE_GOAL = (name: string) => new Promise<void>((resolve, rejec
 
 export {
   CREATE_TABLE_GOAL,
+  DROP_TABLE_GOAL,
   MUTATION_ADD_GOAL,
   QUERY_GET_GOALS,
   MUTATION_DELETE_GOAL,

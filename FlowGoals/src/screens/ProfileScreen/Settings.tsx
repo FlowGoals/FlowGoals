@@ -57,6 +57,21 @@ export default function Settings(props: SettingsProp) {
             size={20}
           />
         </Pressable>
+        {process.env.ENV === 'local'
+        && (
+          <Pressable
+            style={styles.container}
+            onPress={() => {
+              navigation.navigate('sqliteInterface');
+            }}
+          >
+            <Text>Sqlite Interface</Text>
+            <Ionicons
+              name="chevron-forward-outline"
+              size={20}
+            />
+          </Pressable>
+        )}
       </ScrollView>
     </Layout>
   );
