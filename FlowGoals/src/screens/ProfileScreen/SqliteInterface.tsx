@@ -37,7 +37,8 @@ export default function SqliteInterface(props: SqliteInterfaceProps) {
     const newGoal: Goal = {
       name: addGoalName,
       start: 0,
-      current: 0,
+      current: 20,
+      end: 50,
       interval: 0,
       color: 'color',
     };

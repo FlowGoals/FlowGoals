@@ -2,6 +2,7 @@ import { useIsFocused } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { Easing } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import tinycolor from 'tinycolor2';
 
 interface GoalShapeProps {
   size: number,
@@ -12,7 +13,7 @@ interface GoalShapeProps {
 }
 
 function GoalShape({
-  size, width, fill, mainColor, backgroundColor,
+  size, width, fill, mainColor,
 }: GoalShapeProps) {
   const isFocused = useIsFocused();
   const progressRef = useCallback((ref: AnimatedCircularProgress) => {
@@ -20,6 +21,7 @@ function GoalShape({
       ref.reAnimate(0, fill, fill * 20, Easing.out(Easing.quad));
     }
   }, [isFocused]);
+  const backgroundColor = tinycolor(mainColor).lighten(30).toHexString();
 
   return (
     <AnimatedCircularProgress
