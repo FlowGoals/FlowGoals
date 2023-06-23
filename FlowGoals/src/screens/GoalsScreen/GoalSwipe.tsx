@@ -1,21 +1,12 @@
 import React, { useRef } from 'react';
 import {
-  View, StyleSheet, Text, Pressable, Animated,
+  View, StyleSheet, Animated,
 } from 'react-native';
 import {
-  RectButton, Swipeable, GestureHandlerRootView, Gesture,
+  RectButton, Swipeable, GestureHandlerRootView, AnimatedInterpolation,
 } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../../components/utils/Colors';
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    height: 100,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-  },
   leftAction: {
     flex: 1,
     backgroundColor: '#45f248',
@@ -36,22 +27,24 @@ const styles = StyleSheet.create({
   },
 });
 
-type GoalPreviewProps = {
-  goal: {
-    text: string
-  },
+type GoalSwipeProps = {
   children: React.ReactNode
 };
 
-function GoalSwipe({ goal, children }: GoalPreviewProps) {
+function GoalSwipe({ children }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
 
   const close = () => {
     swipeableRowRef.current?.close();
   };
 
-  const renderLeftAction = (text: string, color: string, x: number, progress) => {
-    const trans = progress.interpolate({
+  const renderLeftAction = (
+    text: string,
+    color: string,
+    x: number,
+    progress: AnimatedInterpolation<string | number>,
+  ) => {
+    progress.interpolate({
       inputRange: [0, 1],
       outputRange: [x, 0],
     });
@@ -68,15 +61,15 @@ function GoalSwipe({ goal, children }: GoalPreviewProps) {
     );
   };
 
-  const renderLeftActions = (progress) => (
+  const renderLeftActions = (progress: AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
       {renderLeftAction('Edit', '#ffab00', 128, progress)}
       {renderLeftAction('Delete', '#dd2c00', 64, progress)}
     </View>
   );
 
-  const renderRightActions = (progress, dragX) => {
-    const trans = dragX.interpolate({
+  const renderRightActions = (dragX: AnimatedInterpolation<string | number>) => {
+    dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 100],
     });
@@ -96,7 +89,6 @@ function GoalSwipe({ goal, children }: GoalPreviewProps) {
         rightThreshold={40}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
-        // containerStyle={styles.container}
       >
         {children}
       </Swipeable>
