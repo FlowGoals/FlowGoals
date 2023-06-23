@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -43,22 +43,12 @@ export default function GoalsList() {
     data, isLoading, isError, error, refetch,
   } = useQuery<Goal[]>('queryGetGoals', QUERY_GET_GOALS);
 
-  // handle error while fetching goal
-  if (isError) {
-    const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-    return (
-      <View>
-        <StatusBar />
-        <SafeAreaView style={{ flex: 1 }}>
-          <Text>
-            Error:
-            {' '}
-            {errorMessage}
-          </Text>
-        </SafeAreaView>
-      </View>
-    );
-  }
+  const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+  useEffect(() => {
+    if (isError) {
+      console.log('error fetching goals', errorMessage);
+    }
+  }, [isError]);
 
   const fillVal = (cur: number, end: number | undefined) => {
     if (end === undefined) {
@@ -71,8 +61,15 @@ export default function GoalsList() {
     <View style={styles.container}>
       <StatusBar />
       <SafeAreaView style={{ flex: 1 }}>
-        {isLoading ? <Text>Loading...</Text>
-          : (
+        {isError ? (
+          <View>
+            <StatusBar />
+            <SafeAreaView style={{ flex: 1 }}>
+              <Text>Unable to fetch goals. Please reload app</Text>
+            </SafeAreaView>
+          </View>
+        )
+          : !isLoading && (
             <ScrollView style={{ marginHorizontal: 10 }}>
               {data?.map((goal) => (
                 <View key={goal.name} style={{ marginBottom: 10 }}>
@@ -92,13 +89,7 @@ export default function GoalsList() {
                         <Text style={styles.nameText}>{goal.name}</Text>
                       </View>
                       <View style={{ flex: 0.5, flexDirection: 'row' }}>
-                        <Text>
-                          {goal.current}
-                          {' '}
-                          /
-                          {' '}
-                          {goal.end}
-                        </Text>
+                        <Text>{`${goal.interval} / ${goal.end}`}</Text>
                       </View>
                     </Pressable>
                   </GoalSwipe>
