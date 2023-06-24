@@ -15,16 +15,12 @@ import { QUERY_GET_GOALS } from '../../services/sqliteService';
 import { Goal } from '../../interfaces/IGoal';
 
 export default function Goals(props: GoalsScreenProp) {
-  const { navigation, route } = props;
-  const { refresh } = route.params ?? {};
+  const { navigation } = props;
   //   const auth = getAuth();
-  const [shouldFetch, setShouldFetch] = useState(refresh ?? false);
 
   const {
-    data, isLoading, isError, error, refetch,
+    data, isError, error,
   } = useQuery<Goal[]>('queryGetGoals', QUERY_GET_GOALS);
-
-  console.log('refresh', refresh);
 
   const errorMessage = error instanceof Error ? error.message : 'An error occurred';
   useEffect(() => {
@@ -32,13 +28,6 @@ export default function Goals(props: GoalsScreenProp) {
       console.log('error fetching goals', errorMessage);
     }
   }, [isError]);
-
-  useEffect(() => {
-    if (shouldFetch) {
-      refetch();
-      setShouldFetch(false);
-    }
-  }, [refresh, shouldFetch]);
 
   return (
     <Layout>
@@ -78,7 +67,7 @@ export default function Goals(props: GoalsScreenProp) {
             </SafeAreaView>
           </View>
         )
-          : !isLoading && (
+          : data && (
             <GoalsList goals={data} />
           )}
       </View>

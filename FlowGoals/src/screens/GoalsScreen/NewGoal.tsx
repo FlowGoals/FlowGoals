@@ -62,27 +62,27 @@ export default function NewGoal(props: NewGoalProp) {
   const complete = (name
     && endValue
     && startValue
-    && endDate
     && interval
     && color
     && goalType
   );
 
   const handleCreateGoal = async () => {
+    const goal: Goal = {
+      name,
+      start: parseFloat(startValue),
+      end: parseFloat(endValue),
+      current: parseFloat(startValue),
+      interval: parseFloat(interval),
+      end_date: endDate.toISOString(),
+      color,
+    };
     try {
-      const goal: Goal = {
-        name,
-        start: parseFloat(startValue),
-        end: parseFloat(endValue),
-        current: parseFloat(startValue),
-        interval: parseFloat(interval),
-        end_date: endDate.toISOString(),
-        color,
-      };
       await MUTATION_ADD_GOAL(goal);
     } catch (error) {
       console.log('Error creating goal', error);
     } finally {
+      // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
       queryClient.invalidateQueries('queryGetGoals');
       navigation.goBack();
     }
