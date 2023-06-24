@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  View, ScrollView, Pressable, StyleSheet,
+  View, ScrollView, Pressable, StyleSheet, Linking,
 } from 'react-native';
 import {
-  Layout, Text,
+  Layout, Text, Button,
 } from 'react-native-rapi-ui';
 import { Ionicons } from '@expo/vector-icons';
 import { ProfileScreenProp } from '../../navigation/types';
@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
 
 export default function Profile(props: ProfileScreenProp) {
   const { navigation } = props;
+
+  const handleFeedback = () => {
+    const feedbackFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLScAp7EEgq7wb-XnkZWu2p_RdrJGMNLd_wBgicflWcJBRe8FvQ/viewform?usp=sf_link';
+    Linking.openURL(feedbackFormURL);
+  };
   return (
     <Layout backgroundColor={colors.white}>
       <ScrollView>
@@ -57,6 +62,15 @@ export default function Profile(props: ProfileScreenProp) {
             size={20}
           />
         </Pressable>
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 30,
+        }}
+        >
+          <Button text="Give us feedback!" style={{ alignSelf: 'center' }} onPress={handleFeedback} />
+        </View>
       </ScrollView>
     </Layout>
   );
