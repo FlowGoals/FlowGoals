@@ -8,8 +8,11 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ColorPicker from 'react-native-wheel-color-picker';
+import { useQueryClient } from 'react-query';
 import { colors } from '../../components/utils/Colors';
 import { NewGoalProp } from '../../navigation/types';
+import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
+import { Goal } from '../../interfaces/IGoal';
 
 const styles = StyleSheet.create({
   inputBox: {
@@ -37,32 +40,20 @@ const styles = StyleSheet.create({
 export default function NewGoal(props: NewGoalProp) {
   const { navigation } = props;
 
+  const queryClient = useQueryClient();
+
   const [name, setName] = useState('');
   const [endValue, setEndValue] = useState('');
   const [startValue, setStartValue] = useState('0');
-  const [units, setUnits] = useState('');
   const [endDate, setEndDate] = useState(new Date());
   const [interval, setInterval] = useState('');
   const [color, setColor] = useState('#1632e5');
 
   const [goalType, setGoalType] = useState('');
 
-  const temp = () => {
-    console.log('Name:', name);
-    console.log('End Value:', endValue);
-    console.log('Start Value:', startValue);
-    console.log('Units:', units);
-    console.log('End Date:', endDate);
-    console.log('Interval:', interval);
-    console.log('Color:', color);
-    console.log('Goal Type:', goalType);
-  };
-
   const clearFields = () => {
-    setName('');
     setEndValue('');
     setStartValue('');
-    setUnits('');
     setEndDate(new Date());
     setInterval('');
     setColor('#1632e5');
@@ -71,12 +62,31 @@ export default function NewGoal(props: NewGoalProp) {
   const complete = (name
     && endValue
     && startValue
-    && units
     && endDate
     && interval
     && color
     && goalType
   );
+
+  const handleCreateGoal = async () => {
+    try {
+      const goal: Goal = {
+        name,
+        start: parseFloat(startValue),
+        end: parseFloat(endValue),
+        current: parseFloat(startValue),
+        interval: parseFloat(interval),
+        end_date: endDate.toISOString(),
+        color,
+      };
+      await MUTATION_ADD_GOAL(goal);
+    } catch (error) {
+      console.log('Error creating goal', error);
+    } finally {
+      queryClient.invalidateQueries('queryGetGoals');
+      navigation.goBack();
+    }
+  };
 
   return (
     <Layout backgroundColor={colors.white}>
@@ -148,14 +158,6 @@ export default function NewGoal(props: NewGoalProp) {
                       keyboardType="numeric"
                     />
                   </View>
-                  <View style={[styles.inlineInputBox, { width: '30%' }]}>
-                    <TextInput
-                      value={units}
-                      placeholder="books"
-                      onChangeText={(change) => setUnits(change)}
-                      maxLength={20}
-                    />
-                  </View>
                   <Text>/</Text>
                   <View style={[styles.inlineInputBox, { width: '25%' }]}>
                     <TextInput
@@ -221,18 +223,6 @@ export default function NewGoal(props: NewGoalProp) {
                       />
                     </View>
                   </View>
-                  <View style={{ flexDirection: 'column', rowGap: 10, margin: 5 }}>
-                    <Text>Units</Text>
-                    <View style={styles.inputBox}>
-                      <TextInput
-                        value={units}
-                        placeholder="ex: books"
-                        onChangeText={(change) => setUnits(change)}
-                        maxLength={15}
-                        style={{ fontSize: 16 }}
-                      />
-                    </View>
-                  </View>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text>Complete by</Text>
@@ -263,7 +253,7 @@ export default function NewGoal(props: NewGoalProp) {
               </View>
             )
           )}
-          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={temp} />
+          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleCreateGoal} />
         </View>
       </ScrollView>
     </Layout>

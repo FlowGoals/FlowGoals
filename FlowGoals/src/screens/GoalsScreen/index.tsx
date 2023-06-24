@@ -1,18 +1,45 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, SafeAreaView, Text } from 'react-native';
 import {
   Layout,
   TopNav,
 } from 'react-native-rapi-ui';
+import { useQuery } from 'react-query';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+
 import { GoalsScreenProp } from '../../navigation/types';
 import GoalsList from './GoalsList';
 import { colors } from '../../components/utils/Colors';
+import { QUERY_GET_GOALS } from '../../services/sqliteService';
+import { Goal } from '../../interfaces/IGoal';
 
 export default function Goals(props: GoalsScreenProp) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { refresh } = route.params ?? {};
   //   const auth = getAuth();
+  const [shouldFetch, setShouldFetch] = useState(refresh ?? false);
+
+  const {
+    data, isLoading, isError, error, refetch,
+  } = useQuery<Goal[]>('queryGetGoals', QUERY_GET_GOALS);
+
+  console.log('refresh', refresh);
+
+  const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+  useEffect(() => {
+    if (isError) {
+      console.log('error fetching goals', errorMessage);
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (shouldFetch) {
+      refetch();
+      setShouldFetch(false);
+    }
+  }, [refresh, shouldFetch]);
+
   return (
     <Layout>
       <TopNav
@@ -43,7 +70,17 @@ export default function Goals(props: GoalsScreenProp) {
           justifyContent: 'center',
         }}
       >
-        <GoalsList />
+        {isError ? (
+          <View>
+            <StatusBar />
+            <SafeAreaView style={{ flex: 1 }}>
+              <Text>Unable to fetch goals. Please reload app</Text>
+            </SafeAreaView>
+          </View>
+        )
+          : !isLoading && (
+            <GoalsList goals={data} />
+          )}
       </View>
     </Layout>
   );

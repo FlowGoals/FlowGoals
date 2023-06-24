@@ -3,6 +3,7 @@ import {
   CompositeScreenProps,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Goal } from '../interfaces/IGoal';
 
 // not in use until auth
 export type AuthStackParamList = {
@@ -63,3 +64,8 @@ export type ProfileScreenProp = CompositeScreenProps<
 BottomTabScreenProps<MainTabsParamList, 'profile'>,
 NativeStackScreenProps<MainStackParamList>
 >;
+
+// children component props
+export type GoalsListProps = {
+  goals: Goal[] | undefined
+};

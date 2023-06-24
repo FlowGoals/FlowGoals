@@ -9,7 +9,6 @@ interface GoalShapeProps {
   width: number,
   fill: number,
   mainColor: string,
-  backgroundColor: string,
 }
 
 function GoalShape({
