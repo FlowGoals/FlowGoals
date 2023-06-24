@@ -5,6 +5,10 @@ import {
 import {
   RectButton, Swipeable, GestureHandlerRootView, AnimatedInterpolation,
 } from 'react-native-gesture-handler';
+import Dialog from 'react-native-dialog';
+import { useQueryClient } from 'react-query';
+import { SQLError } from 'expo-sqlite';
+import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
 
 const styles = StyleSheet.create({
   leftAction: {
@@ -29,20 +33,46 @@ const styles = StyleSheet.create({
 
 type GoalSwipeProps = {
   children: React.ReactNode
+  name: string
 };
 
-function GoalSwipe({ children }: GoalSwipeProps) {
+function GoalSwipe({ children, name }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
+  const queryClient = useQueryClient();
+  const [visible, setVisible] = React.useState(false);
+
+  const showDialog = () => {
+    setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const handleDeleteGoal = async () => {
+    const goalName = name;
+    await MUTATION_DELETE_GOAL(goalName)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err: SQLError) => {
+        console.log(err.message);
+      });
+    // invalidate query "queryGetGoals" in cache to trigger refetch
+    queryClient.invalidateQueries('queryGetGoals');
+    setVisible(false);
+  };
 
   const close = () => {
     swipeableRowRef.current?.close();
   };
 
-  const renderLeftAction = (
+  const renderLeftButton = (
     text: string,
     color: string,
     x: number,
     progress: AnimatedInterpolation<string | number>,
+    onPress: () => void,
   ) => {
     progress.interpolate({
       inputRange: [0, 1],
@@ -53,7 +83,7 @@ function GoalSwipe({ children }: GoalSwipeProps) {
       <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>
         <RectButton
           style={[styles.rightAction, { backgroundColor: color }]}
-          onPress={close}
+          onPress={onPress}
         >
           <Animated.Text style={styles.actionText}>{text}</Animated.Text>
         </RectButton>
@@ -61,10 +91,10 @@ function GoalSwipe({ children }: GoalSwipeProps) {
     );
   };
 
-  const renderLeftActions = (progress: AnimatedInterpolation<string | number>) => (
+  const renderLeftButtons = (progress: AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
-      {renderLeftAction('Edit', '#FFB74D', 128, progress)}
-      {renderLeftAction('Delete', '#FF5252', 64, progress)}
+      {renderLeftButton('Edit', '#FFB74D', 128, progress, close)}
+      {renderLeftButton('Delete', '#FF5252', 64, progress, showDialog)}
     </View>
   );
 
@@ -80,6 +110,7 @@ function GoalSwipe({ children }: GoalSwipeProps) {
 
     );
   };
+
   return (
     <GestureHandlerRootView>
       <Swipeable
@@ -87,9 +118,17 @@ function GoalSwipe({ children }: GoalSwipeProps) {
         friction={2}
         leftThreshold={30}
         rightThreshold={40}
-        renderLeftActions={renderLeftActions}
+        renderLeftActions={renderLeftButtons}
         renderRightActions={renderRightActions}
       >
+        <Dialog.Container visible={visible}>
+          <Dialog.Title>Delete Goal</Dialog.Title>
+          <Dialog.Description>
+            Do you want to delete this goal? You cannot undo this action.
+          </Dialog.Description>
+          <Dialog.Button label="Cancel" onPress={handleCancel} />
+          <Dialog.Button label="Delete" onPress={handleDeleteGoal} />
+        </Dialog.Container>
         {children}
       </Swipeable>
     </GestureHandlerRootView>
