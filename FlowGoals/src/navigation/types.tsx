@@ -20,7 +20,7 @@ export type MainStackParamList = {
   sqliteInterface: undefined;
 };
 
-// for each Tabs.screen
+// route params for each Tabs.screen
 export type MainTabsParamList = {
   friends: undefined;
   profile: undefined;

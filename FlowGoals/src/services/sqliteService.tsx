@@ -10,7 +10,7 @@ const CREATE_TABLE_GOAL = () => new Promise<void>((resolve, reject) => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
             start INTEGER NOT NULL,
-            end INTEGER,
+            end INTEGER NOT NULL,
             current INTEGER NOT NULL,
             interval INTEGER NOT NULL,
             end_date TEXT,
@@ -49,7 +49,7 @@ const MUTATION_ADD_GOAL = (goal: Goal) => new Promise<number | undefined>((resol
       [
         goal.name,
         goal.start,
-        goal.end ?? null,
+        goal.end,
         goal.current,
         goal.interval,
         goal.end_date ?? null,

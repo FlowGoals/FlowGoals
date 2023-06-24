@@ -9,7 +9,7 @@ import {
 const styles = StyleSheet.create({
   leftAction: {
     flex: 1,
-    backgroundColor: '#64DD17',
+    backgroundColor: '#98fb98',
     borderRadius: 10,
     justifyContent: 'center',
   },
