@@ -40,7 +40,7 @@ export default function SqliteInterface(props: SqliteInterfaceProps) {
       current: 20,
       end: 50,
       interval: 0,
-      color: 'color',
+      color: '#1632e5',
     };
     setAddGoalName('');
     await MUTATION_ADD_GOAL(newGoal)
