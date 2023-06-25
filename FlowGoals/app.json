@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.calvinvanoss.FlowGoals"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +32,7 @@
       "eas": {
         "projectId": "60f2f8f1-f232-40e5-8686-3cfbd182fee5"
       }
-    }
+    },
+    "owner": "flowgoals"
   }
 }
