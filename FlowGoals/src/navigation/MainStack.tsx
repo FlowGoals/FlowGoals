@@ -3,11 +3,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SQLError } from 'expo-sqlite';
 import MainTabs from './MainTabs';
 import { MainStackParamList } from './types';
-import Settings from '../screens/ProfileScreen/Settings';
-import FAQ from '../screens/ProfileScreen/FAQ';
-import NewGoal from '../screens/GoalsScreen/NewGoal';
+import Settings from '../screens/ProfileTab/Settings';
+import FAQ from '../screens/ProfileTab/FAQ';
+import NewGoal from '../screens/GoalsTab/NewGoal';
 import { CREATE_TABLE_GOAL } from '../services/sqliteService';
-import SqliteInterface from '../screens/ProfileScreen/SqliteInterface';
+import SqliteInterface from '../screens/ProfileTab/SqliteInterface';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
