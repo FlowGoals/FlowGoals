@@ -12,13 +12,11 @@ datasource db {
 }
 
 model User {
-  googleId       String   @id @unique @map("google_id")
-  email          String   @unique
-  name           String
-  profilePicture String   @map("profile_picture")
-  createdDate    DateTime @default(now()) @map("created_date")
-  goals          Goal[]
-  extraData      Json?    @map("extra_data") // bio
+  id          Int      @id @default(autoincrement())
+  username    String
+  createdDate DateTime @default(now()) @map("created_date")
+  goals       Goal[]
+  extraData   Json?    @map("extra_data") // bio
 
   @@map("user")
 }
@@ -26,8 +24,8 @@ model User {
 model Goal {
   id           Int       @id @default(autoincrement())
   title        String
-  userId       String    @map("user_id")
-  user         User      @relation(fields: [userId], references: [googleId])
+  userId       Int       @map("user_id")
+  user         User      @relation(fields: [userId], references: [id])
   createdDate  DateTime  @default(now()) @map("created_date")
   targetDate   DateTime? @map("target_date")
   startValue   Int       @map("start_value")
