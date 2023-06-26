@@ -3,7 +3,7 @@ import {
   View, StyleSheet, Animated,
 } from 'react-native';
 import {
-  RectButton, Swipeable, GestureHandlerRootView, AnimatedInterpolation,
+  RectButton, Swipeable, GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
@@ -71,7 +71,7 @@ function GoalSwipe({ children, name }: GoalSwipeProps) {
     text: string,
     color: string,
     x: number,
-    progress: AnimatedInterpolation<string | number>,
+    progress: Animated.AnimatedInterpolation<string | number>,
     onPress: () => void,
   ) => {
     progress.interpolate({
@@ -91,14 +91,14 @@ function GoalSwipe({ children, name }: GoalSwipeProps) {
     );
   };
 
-  const renderLeftButtons = (progress: AnimatedInterpolation<string | number>) => (
+  const renderLeftButtons = (progress: Animated.AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
       {renderLeftButton('Edit', '#FFB74D', 128, progress, close)}
       {renderLeftButton('Delete', '#FF5252', 64, progress, showDialog)}
     </View>
   );
 
-  const renderRightActions = (dragX: AnimatedInterpolation<string | number>) => {
+  const renderRightActions = (dragX: Animated.AnimatedInterpolation<string | number>) => {
     dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 100],
