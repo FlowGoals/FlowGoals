@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.calvinvanoss.FlowGoals"
+      "bundleIdentifier": "com.FlowGoals.FlowGoals"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.calvinvanoss.FlowGoals"
+      "package": "com.FlowGoals.FlowGoals"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
