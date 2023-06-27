@@ -1,0 +1,16 @@
+# Directories
+node_modules/
+dist/
+
+# Environment variables
+.env
+
+# Editor/IDE specific files
+.vscode/
+
+# Build artifacts
+*.js
+*.js.map
+
+# Logs
+*.log
