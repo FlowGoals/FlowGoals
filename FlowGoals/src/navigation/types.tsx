@@ -7,7 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 // not in use until auth
 export type AuthStackParamList = {
   Login: undefined;
-  Signup: undefined;
+  SignUp: undefined;
 };
 
 // for each MainStack.screen
@@ -28,6 +28,8 @@ export type MainTabsParamList = {
 
 // AuthStack.screen component props
 export type LoginProp = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+export type SignUpProp = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
 // MainStack.screen component props
 export type SettingsProp = NativeStackScreenProps<

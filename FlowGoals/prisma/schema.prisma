@@ -13,7 +13,8 @@ datasource db {
 
 model User {
   id          Int      @id @default(autoincrement())
-  username    String
+  username    String   @unique
+  password    String
   createdDate DateTime @default(now()) @map("created_date")
   goals       Goal[]
   extraData   Json?    @map("extra_data") // bio
@@ -33,7 +34,8 @@ model Goal {
   targetValue  Int       @map("target_value")
   interval     Int?
   isActive     Boolean   @default(true) @map("is_active")
-  extraData    Json?     @map("extra_data") // description, color
+  color        String
+  extraData    Json?     @map("extra_data") // description
 
   @@index([userId])
   @@map("goal")

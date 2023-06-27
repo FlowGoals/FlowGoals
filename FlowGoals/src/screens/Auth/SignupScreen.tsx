@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View, TextInput, Button, StyleSheet,
 } from 'react-native';
-import AuthContext from '../../context/AuthContext';
-import { LoginProp } from '../../navigation/types';
+import { SignUpProp } from '../../navigation/types';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,22 +22,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function LoginScreen({ navigation }: LoginProp) {
-  const { login } = useContext(AuthContext);
-
+function SignUpScreen({ navigation }: SignUpProp) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    console.log('login');
-    // hard coded for now
-    login({
-      id: 1,
-      username: 'test',
-      createdDate: new Date(),
-      extraData: {},
-      password: '',
-    });
+  const handleSignUp = async () => {
+    console.log('signup');
   };
 
   return (
@@ -56,10 +45,10 @@ function LoginScreen({ navigation }: LoginProp) {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="go to sign up" onPress={() => navigation.navigate('SignUp')} />
+      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="go to login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
 
-export default LoginScreen;
+export default SignUpScreen;
