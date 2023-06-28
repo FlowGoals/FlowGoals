@@ -3,6 +3,7 @@ import {
   CompositeScreenProps,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Goal } from '../interfaces/IGoal';
 
 // not in use until auth
 export type AuthStackParamList = {
@@ -17,7 +18,7 @@ export type MainStackParamList = {
   faq: undefined;
   newgoal: undefined;
   sqliteInterface: undefined;
-  editgoal: undefined;
+  editgoal: { goal: Goal };
 };
 
 // route params for each Tabs.screen

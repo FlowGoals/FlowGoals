@@ -37,24 +37,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function EditGoal({ navigation } : EditGoalProp) {
+export default function EditGoal({ navigation, route } : EditGoalProp) {
   const queryClient = useQueryClient();
+  const { goal } = route.params || {};
 
-  const [name, setName] = useState('');
-  const [endValue, setEndValue] = useState('');
-  const [startValue, setStartValue] = useState('0');
-  const [endDate, setEndDate] = useState(new Date());
-  const [interval, setInterval] = useState('');
-  const [color, setColor] = useState('#1632e5');
+  const [name, setName] = useState(goal.name);
+  const [endValue, setEndValue] = useState(goal.end.toString());
+  const [startValue, setStartValue] = useState(goal.start.toString());
+  const [endDate, setEndDate] = useState(goal.end_date ? new Date(goal.end_date) : undefined);
+  const [interval, setInterval] = useState(goal.interval.toString());
+  const [color, setColor] = useState(goal.color);
 
-  const [goalType, setGoalType] = useState('');
+  const [goalType, setGoalType] = useState(goal.interval === 1 ? 'oneTime' : 'repeat');
 
   const clearFields = () => {
-    setEndValue('');
-    setStartValue('');
+    setEndValue(goal.end.toString());
+    setStartValue(goal.start.toString());
     setEndDate(new Date());
-    setInterval('');
-    setColor('#1632e5');
+    setInterval(goal.interval.toString());
+    setColor(goal.color);
   };
 
   const complete = (name
@@ -66,17 +67,17 @@ export default function EditGoal({ navigation } : EditGoalProp) {
   );
 
   const handleUpdateGoal = async () => {
-    const goal: Goal = {
+    const updatedGoal: Goal = {
       name,
       start: parseFloat(startValue),
       end: parseFloat(endValue),
       current: parseFloat(startValue),
       interval: parseFloat(interval),
-      end_date: endDate.toISOString(),
+      end_date: endDate ? endDate.toISOString() : undefined,
       color,
     };
     try {
-      await MUTATION_ADD_GOAL(goal);
+      await MUTATION_ADD_GOAL(updatedGoal);
     } catch (error) {
       console.log('Error creating goal', error);
     } finally {

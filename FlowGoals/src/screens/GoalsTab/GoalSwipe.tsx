@@ -8,9 +8,9 @@ import {
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
 import { SQLError } from 'expo-sqlite';
-import { useNavigation } from '@react-navigation/native';
 import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
 import { Goal } from '../../interfaces/IGoal';
+import { GoalsScreenProp } from '../../navigation/types';
 
 const styles = StyleSheet.create({
   leftAction: {
@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
 type GoalSwipeProps = {
   children: React.ReactNode
   goal: Goal
+  navigation: GoalsScreenProp['navigation']
 };
 
-function GoalSwipe({ children, goal }: GoalSwipeProps) {
+function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
 
   const showDeleteDialog = () => {

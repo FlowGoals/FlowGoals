@@ -66,7 +66,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
             </SafeAreaView>
           </View>
         )}
-        { data && data.length !== 0 ? <GoalsList goals={data} />
+        { data && data.length !== 0 ? <GoalsList goals={data} navigation={navigation} />
           : (
             <View style={{ marginHorizontal: 30 }}>
               <Text style={{ fontSize: 25, textAlign: 'center' }}>You don&apos;t have any goals right now</Text>
