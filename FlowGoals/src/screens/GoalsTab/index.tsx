@@ -14,8 +14,7 @@ import { colors } from '../../components/utils/Colors';
 import { QUERY_GET_GOALS } from '../../services/sqliteService';
 import { Goal } from '../../interfaces/IGoal';
 
-export default function Goals(props: GoalsScreenProp) {
-  const { navigation } = props;
+export default function Goals({ navigation } : GoalsScreenProp) {
   //   const auth = getAuth();
 
   const {

@@ -50,7 +50,7 @@ export default function GoalsList({ goals }: GoalsListProps) {
         <ScrollView style={{ marginHorizontal: 10 }}>
           {goals.map((goal) => (
             <View key={goal.name} style={{ marginBottom: 10 }}>
-              <GoalSwipe name={goal.name}>
+              <GoalSwipe goal={goal}>
                 <Pressable style={styles.preview}>
                   <View style={{ flex: 1 }}>
                     <GoalShape

@@ -10,7 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { useQueryClient } from 'react-query';
 import { colors } from '../../components/utils/Colors';
-import { NewGoalProp } from '../../navigation/types';
+import { EditGoalProp } from '../../navigation/types';
 import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
 import { Goal } from '../../interfaces/IGoal';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function NewGoal({ navigation } : NewGoalProp) {
+export default function EditGoal({ navigation } : EditGoalProp) {
   const queryClient = useQueryClient();
 
   const [name, setName] = useState('');
@@ -65,7 +65,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     && goalType
   );
 
-  const handleCreateGoal = async () => {
+  const handleUpdateGoal = async () => {
     const goal: Goal = {
       name,
       start: parseFloat(startValue),
@@ -89,7 +89,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   return (
     <Layout backgroundColor={colors.white}>
       <TopNav
-        middleContent="New Goal"
+        // middleContent="New Goal"
         leftContent={(
           <Ionicons
             name="arrow-back-outline"
@@ -251,7 +251,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               </View>
             )
           )}
-          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleCreateGoal} />
+          <Button text="Update" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleUpdateGoal} />
         </View>
       </ScrollView>
     </Layout>

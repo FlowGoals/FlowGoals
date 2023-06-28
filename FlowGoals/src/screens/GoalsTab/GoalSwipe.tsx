@@ -8,7 +8,9 @@ import {
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
 import { SQLError } from 'expo-sqlite';
+import { useNavigation } from '@react-navigation/native';
 import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
+import { Goal } from '../../interfaces/IGoal';
 
 const styles = StyleSheet.create({
   leftAction: {
@@ -33,15 +35,16 @@ const styles = StyleSheet.create({
 
 type GoalSwipeProps = {
   children: React.ReactNode
-  name: string
+  goal: Goal
 };
 
-function GoalSwipe({ children, name }: GoalSwipeProps) {
+function GoalSwipe({ children, goal }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
 
-  const showDialog = () => {
+  const showDeleteDialog = () => {
     setVisible(true);
   };
 
@@ -50,7 +53,7 @@ function GoalSwipe({ children, name }: GoalSwipeProps) {
   };
 
   const handleDeleteGoal = async () => {
-    const goalName = name;
+    const goalName = goal.name;
     await MUTATION_DELETE_GOAL(goalName)
       .then((res) => {
         console.log(res);
@@ -93,8 +96,11 @@ function GoalSwipe({ children, name }: GoalSwipeProps) {
 
   const renderLeftButtons = (progress: Animated.AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
-      {renderLeftButton('Edit', '#FFB74D', 128, progress, close)}
-      {renderLeftButton('Delete', '#FF5252', 64, progress, showDialog)}
+      {renderLeftButton('Edit', '#FFB74D', 128, progress, () => {
+        close();
+        navigation.navigate('editgoal', { goal });
+      })}
+      {renderLeftButton('Delete', '#FF5252', 64, progress, showDeleteDialog)}
     </View>
   );
 
