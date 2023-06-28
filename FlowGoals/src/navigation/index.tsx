@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Main from './MainStack';
 import Auth from './AuthStack';
-import AuthContext from '../context/auth/AuthContext';
+import AuthContext from '../context/AuthContext';
 
 function AuthHandler() {
   const { user } = useContext(AuthContext);
