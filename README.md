@@ -9,6 +9,7 @@ FlowGoals is a productivity and goal-setting app with social features to add a l
 ### Tech Stack
 * React Native
 * Expo
+* Firebase
 * PlanetScale
 * Prisma
 
