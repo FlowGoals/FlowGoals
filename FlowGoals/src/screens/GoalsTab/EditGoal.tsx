@@ -43,7 +43,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
 
   const [name, setName] = useState(goal.name);
   const [endValue, setEndValue] = useState(goal.end.toString());
-  const [startValue, setStartValue] = useState(goal.start.toString());
+  const [startValue, setStartValue] = useState(goal.current.toString());
   const [endDate, setEndDate] = useState(goal.end_date ? new Date(goal.end_date) : undefined);
   const [interval, setInterval] = useState(goal.interval.toString());
   const [color, setColor] = useState(goal.color);
@@ -52,7 +52,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
 
   const clearFields = () => {
     setEndValue(goal.end.toString());
-    setStartValue(goal.start.toString());
+    setStartValue(goal.current.toString());
     setEndDate(new Date());
     setInterval(goal.interval.toString());
     setColor(goal.color);
@@ -171,7 +171,8 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
                   <Text>End date</Text>
                   <DateTimePicker
                     mode="date"
-                    value={endDate}
+                    // value={endDate}
+                    value={endDate || new Date()}
                     onChange={(event, selectedDate) => setEndDate(selectedDate || endDate)}
                     minimumDate={new Date()}
                   />
@@ -227,7 +228,8 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
                   <Text>Complete by</Text>
                   <DateTimePicker
                     mode="date"
-                    value={endDate}
+                    // value={endDate}
+                    value={endDate || new Date()}
                     onChange={(event, selectedDate) => setEndDate(selectedDate || endDate)}
                     minimumDate={new Date()}
                   />
