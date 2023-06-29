@@ -9,10 +9,10 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { useQueryClient } from 'react-query';
+// import { PrismaClient, Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
 import { NewGoalProp } from '../../navigation/types';
 import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
-import { Goal } from '../../interfaces/IGoal';
 
 const styles = StyleSheet.create({
   inputBox: {
@@ -39,51 +39,58 @@ const styles = StyleSheet.create({
 
 export default function NewGoal({ navigation } : NewGoalProp) {
   const queryClient = useQueryClient();
+  // const prisma = new PrismaClient();
 
-  const [name, setName] = useState('');
-  const [endValue, setEndValue] = useState('');
+  // goal state variables
+  const [title, setTitle] = useState('');
+  // userId: number;
+  // created date set on creation
+  const [targetDate, setTargetDate] = useState<Date | null>(null); // or null
   const [startValue, setStartValue] = useState('0');
-  const [endDate, setEndDate] = useState(new Date());
-  const [interval, setInterval] = useState('');
+  // currentValue set to startValue on creation
+  const [targetValue, setTargetValue] = useState('');
+  const [interval, setInterval] = useState(''); // or null
+  // isActive set to true on creation
   const [color, setColor] = useState('#1632e5');
+  // extraData: Prisma.JsonValue;
 
-  const [goalType, setGoalType] = useState('');
+  // radio button state variables
+  const [oneTime, setOneTime] = useState< boolean | null>(null);
+  const [hasEndDate, setHasEndDate] = useState < boolean | null>(null);
 
-  const clearFields = () => {
-    setEndValue('');
-    setStartValue('');
-    setEndDate(new Date());
-    setInterval('');
-    setColor('#1632e5');
-  };
+  // resets fields when toggling repeat/oneTime
 
-  const complete = (name
-    && endValue
+  const complete = (title
+    && targetValue
     && startValue
     && interval
     && color
-    && goalType
+    && oneTime !== null
+    && hasEndDate !== null
   );
 
   const handleCreateGoal = async () => {
-    const goal: Goal = {
-      name,
-      start: parseFloat(startValue),
-      end: parseFloat(endValue),
-      current: parseFloat(startValue),
-      interval: parseFloat(interval),
-      end_date: endDate.toISOString(),
-      color,
-    };
-    try {
-      await MUTATION_ADD_GOAL(goal);
-    } catch (error) {
-      console.log('Error creating goal', error);
-    } finally {
-      // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
-      queryClient.invalidateQueries('queryGetGoals');
-      navigation.goBack();
-    }
+    // const goal: Prisma.CreateGoalInput = {
+    //   title,
+    //   startValue: parseFloat(startValue),
+    //   targetValue: parseFloat(targetValue),
+    //   currentValue: parseFloat(startValue),
+    //   interval: parseFloat(interval),
+    //   targetDate,
+    //   createdDate: new Date(),
+    //   color,
+    //   isActive: true,
+    // };
+    // try {
+    //   await MUTATION_ADD_GOAL(goal);
+    // } catch (error) {
+    //   console.log('Error creating goal', error);
+    // } finally {
+    //   // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    //   queryClient.invalidateQueries('queryGetGoals');
+    //   navigation.goBack();
+    // }
+    console.log('create goal');
   };
 
   return (
@@ -107,9 +114,9 @@ export default function NewGoal({ navigation } : NewGoalProp) {
           <Text>Goal Name</Text>
           <View style={styles.inputBox}>
             <TextInput
-              value={name}
+              value={title}
               placeholder="ex: Bench 225"
-              onChangeText={(change) => setName(change)}
+              onChangeText={(change) => setTitle(change)}
               maxLength={15}
               style={{ fontSize: 16 }}
             />
@@ -119,39 +126,39 @@ export default function NewGoal({ navigation } : NewGoalProp) {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text>Yes</Text>
               <RadioButton
-                value={goalType === 'repeat'}
+                value={oneTime === false}
                 onValueChange={() => {
-                  setGoalType('repeat');
-                  clearFields();
+                  setOneTime(false);
                   // repeat specific values
+                  setInterval('');
                   setStartValue('0');
                 }}
                 style={{ marginHorizontal: 20 }}
               />
               <Text>No</Text>
               <RadioButton
-                value={goalType === 'oneTime'}
+                value={oneTime === true}
                 onValueChange={() => {
-                  setGoalType('oneTime');
-                  clearFields();
+                  setOneTime(true);
                   // oneTime specific values
+                  setStartValue('');
                   setInterval('1');
                 }}
                 style={{ marginHorizontal: 20 }}
               />
             </View>
           </View>
-          {goalType !== ''
-          && (goalType === 'repeat'
+          {oneTime !== null
+          && (!oneTime
             ? (
               <View style={{ rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text>Complete</Text>
                   <View style={[styles.inlineInputBox, { width: '15%' }]}>
                     <TextInput
-                      value={endValue}
+                      value={targetValue}
                       placeholder="ex: 4"
-                      onChangeText={(change) => setEndValue(change)}
+                      onChangeText={(change) => setTargetValue(change)}
                       maxLength={3}
                       keyboardType="numeric"
                     />
@@ -166,15 +173,40 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     />
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text>End date</Text>
-                  <DateTimePicker
-                    mode="date"
-                    value={endDate}
-                    onChange={(event, selectedDate) => setEndDate(selectedDate || endDate)}
-                    minimumDate={new Date()}
-                  />
+                <Text>Will this goal end on a specific date?</Text>
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text>Yes</Text>
+                    <RadioButton
+                      value={hasEndDate === true}
+                      onValueChange={() => {
+                        setHasEndDate(true);
+                      }}
+                      style={{ marginHorizontal: 20 }}
+                    />
+                    <Text>No</Text>
+                    <RadioButton
+                      value={hasEndDate === false}
+                      onValueChange={() => {
+                        setHasEndDate(false);
+                        setTargetDate(null);
+                      }}
+                      style={{ marginHorizontal: 20 }}
+                    />
+                  </View>
                 </View>
+                {hasEndDate !== null
+                && hasEndDate && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text>End date</Text>
+                    <DateTimePicker
+                      mode="date"
+                      value={targetDate || new Date()}
+                      onChange={(event, selectedDate) => setTargetDate(selectedDate || targetDate)}
+                      minimumDate={new Date()}
+                    />
+                  </View>
+                ) }
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text>Color </Text>
                   <Ionicons
@@ -213,24 +245,49 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     <Text>Target</Text>
                     <View style={styles.inputBox}>
                       <TextInput
-                        value={endValue}
+                        value={targetValue}
                         placeholder="ex: 10"
-                        onChangeText={(change) => setEndValue(change)}
+                        onChangeText={(change) => setTargetValue(change)}
                         maxLength={4}
                         style={{ fontSize: 16 }}
                       />
                     </View>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text>Complete by</Text>
-                  <DateTimePicker
-                    mode="date"
-                    value={endDate}
-                    onChange={(event, selectedDate) => setEndDate(selectedDate || endDate)}
-                    minimumDate={new Date()}
-                  />
+                <Text>Will this goal end on a specific date?</Text>
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text>Yes</Text>
+                    <RadioButton
+                      value={hasEndDate === true}
+                      onValueChange={() => {
+                        setHasEndDate(true);
+                      }}
+                      style={{ marginHorizontal: 20 }}
+                    />
+                    <Text>No</Text>
+                    <RadioButton
+                      value={hasEndDate === false}
+                      onValueChange={() => {
+                        setHasEndDate(false);
+                        setTargetDate(null);
+                      }}
+                      style={{ marginHorizontal: 20 }}
+                    />
+                  </View>
                 </View>
+                {hasEndDate !== null
+                && hasEndDate && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text>End date</Text>
+                    <DateTimePicker
+                      mode="date"
+                      value={targetDate || new Date()}
+                      onChange={(event, selectedDate) => setTargetDate(selectedDate || targetDate)}
+                      minimumDate={new Date()}
+                    />
+                  </View>
+                ) }
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text>Color </Text>
                   <Ionicons

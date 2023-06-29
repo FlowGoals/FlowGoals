@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const fillVal = (cur: number, end: number) => (cur / end) * 100;
+const fillVal = (start: number, cur: number, end: number) => ((cur - start) / (end - start)) * 100;
 
 export default function Goals({ navigation } : GoalsScreenProp) {
   //   const auth = getAuth();
@@ -110,7 +110,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                               size={75}
                               width={15}
                               mainColor={goal.color}
-                              fill={fillVal(goal.current, goal.end)}
+                              fill={fillVal(goal.start, goal.current, goal.end)}
                             />
                           </View>
                           <View style={{ flex: 1 }}>
