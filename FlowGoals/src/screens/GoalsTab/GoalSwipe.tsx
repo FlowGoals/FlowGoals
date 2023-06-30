@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  View, StyleSheet, Animated,
+  View, StyleSheet, Animated, Modal,
 } from 'react-native';
 import {
   RectButton, Swipeable, GestureHandlerRootView,
@@ -9,8 +9,10 @@ import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
 import { SQLError } from 'expo-sqlite';
 import { Prisma } from '@prisma/client';
+import { Ionicons } from '@expo/vector-icons';
 import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
 import { GoalsScreenProp } from '../../navigation/types';
+import { colors } from '../../components/utils/Colors';
 
 const styles = StyleSheet.create({
   leftAction: {
@@ -31,6 +33,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
   },
+  modalView: {
+    flex: 0.75,
+    marginTop: 75,
+    marginBottom: 0,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: colors.white,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
 });
 
 type GoalSwipeProps = {
@@ -42,18 +60,19 @@ type GoalSwipeProps = {
 function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
   const queryClient = useQueryClient();
-  const [visible, setVisible] = React.useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  // const [logModalVisible, setLogModalVisible] = useState(false);
 
   const showDeleteDialog = () => {
-    setVisible(true);
+    setDeleteModalVisible(true);
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    setDeleteModalVisible(false);
   };
 
   const handleDeleteGoal = async () => {
-    const goalName = goal.name;
+    const goalName = goal.title;
     await MUTATION_DELETE_GOAL(goalName)
       .then((res) => {
         console.log(res);
@@ -63,10 +82,10 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
       });
     // invalidate query "queryGetGoals" in cache to trigger refetch
     queryClient.invalidateQueries('queryGetGoals');
-    setVisible(false);
+    setDeleteModalVisible(false);
   };
 
-  const close = () => {
+  const closeSwipe = () => {
     swipeableRowRef.current?.close();
   };
 
@@ -97,7 +116,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const renderLeftButtons = (progress: Animated.AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
       {renderLeftButton('Edit', '#FFB74D', 128, progress, () => {
-        close();
+        closeSwipe();
         navigation.navigate('editgoal', { goal });
       })}
       {renderLeftButton('Delete', '#FF5252', 64, progress, showDeleteDialog)}
@@ -111,7 +130,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     });
     return (
       <Animated.View style={{ flex: 1, transform: [{ translateX: 0 }] }}>
-        <RectButton style={styles.leftAction} onPress={close} />
+        <RectButton style={styles.leftAction} onPress={closeSwipe} />
       </Animated.View>
 
     );
@@ -127,7 +146,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
         renderLeftActions={renderLeftButtons}
         renderRightActions={renderRightActions}
       >
-        <Dialog.Container visible={visible}>
+        <Dialog.Container visible={deleteModalVisible}>
           <Dialog.Title>Delete Goal</Dialog.Title>
           <Dialog.Description>
             Do you want to delete this goal? You cannot undo this action.
