@@ -1,9 +1,9 @@
 import { createContext } from 'react';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 
 interface AuthContextType {
   user?: User;
-  login: (userData: User) => void;
+  login: (userData: Prisma.UserCreateInput) => void;
   logout: () => void;
 }
 

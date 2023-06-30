@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View, TextInput, Button, StyleSheet,
 } from 'react-native';
 import { SignUpProp } from '../../navigation/types';
+import AuthContext from '../../context/AuthContext';
+import { signupUser } from '../../services/axiosService';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,12 +24,18 @@ const styles = StyleSheet.create({
   },
 });
 
-function SignUpScreen({ navigation }: SignUpProp) {
+function SignupScreen({ navigation }: SignUpProp) {
+  const { login } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = async () => {
-    console.log('signup');
+  const handleSignup = async () => {
+    try {
+      await signupUser({ username, password });
+      login({ username, password });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -45,10 +53,10 @@ function SignUpScreen({ navigation }: SignUpProp) {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={handleSignup} />
       <Button title="go to login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
 
-export default SignUpScreen;
+export default SignupScreen;

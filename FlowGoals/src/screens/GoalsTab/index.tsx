@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   View, SafeAreaView, Text, StyleSheet, Pressable, ScrollView,
 } from 'react-native';
@@ -10,13 +10,15 @@ import { useQuery } from 'react-query';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
-import { Prisma } from '@prisma/client';
+import { Goal } from '@prisma/client';
+import { AxiosError } from 'axios';
 import { GoalsScreenProp } from '../../navigation/types';
-import GoalSwipe from './GoalSwipe';
-import GoalShape from './GoalShape';
+import GoalSwipe from './goalSwipe';
+import GoalShape from './goalShape';
 
 import { colors } from '../../components/utils/Colors';
-import { QUERY_GET_GOALS } from '../../services/sqliteService';
+import { getGoals } from '../../services/axiosService';
+import AuthContext from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,14 +46,13 @@ const styles = StyleSheet.create({
 const fillVal = (start: number, cur: number, end: number) => ((cur - start) / (end - start)) * 100;
 
 export default function Goals({ navigation } : GoalsScreenProp) {
-  //   const auth = getAuth();
-
+  const { user } = useContext(AuthContext);
   const {
     data, isError, error,
-  } = useQuery<Prisma.GoalCreateInput[]>('queryGetGoals', QUERY_GET_GOALS);
+  } = useQuery<Goal[]>('queryGetGoals', () => getGoals(user!.id));
 
-  const errorMessage = error instanceof Error ? error.message : 'An error occurred';
   useEffect(() => {
+    const errorMessage = error instanceof AxiosError ? error.message : 'An error occurred';
     if (isError) {
       console.log('error fetching goals', errorMessage);
     }
@@ -117,7 +118,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                             <Text style={styles.nameText}>{goal.title}</Text>
                           </View>
                           <View style={{ flex: 0.5, flexDirection: 'row' }}>
-                            <Text>{`${goal.currentValue} / ${goal.endValue}`}</Text>
+                            <Text>{`${goal.currentValue} / ${goal.targetValue}`}</Text>
                           </View>
                         </Pressable>
                       </GoalSwipe>

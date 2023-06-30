@@ -30,15 +30,11 @@ function LoginScreen({ navigation }: LoginProp) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    console.log('login');
-    // hard coded for now
-    login({
-      id: 1,
-      username: 'test',
-      createdDate: new Date(),
-      extraData: {},
-      password: '',
-    });
+    try {
+      login({ username, password });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -57,7 +53,7 @@ function LoginScreen({ navigation }: LoginProp) {
         onChangeText={setPassword}
       />
       <Button title="Login" onPress={handleLogin} />
-      <Button title="go to sign up" onPress={() => navigation.navigate('SignUp')} />
+      <Button title="go to sign up" onPress={() => navigation.navigate('Signup')} />
     </View>
   );
 }

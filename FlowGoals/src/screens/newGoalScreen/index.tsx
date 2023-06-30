@@ -12,8 +12,8 @@ import { useQueryClient } from 'react-query';
 import { Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
 import { NewGoalProp } from '../../navigation/types';
-import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
 import AuthContext from '../../context/AuthContext';
+import { createGoal } from '../../services/axiosService';
 
 const styles = StyleSheet.create({
   inputBox: {
@@ -101,11 +101,10 @@ export default function NewGoal({ navigation } : NewGoalProp) {
       createdDate: new Date(),
       color,
       isActive: true,
-      user: { connect: { id: user?.id } },
+      user: { connect: { id: user!.id } },
     };
     try {
-      // await MUTATION_ADD_GOAL(newGoal);
-      console.log('newgoal', newGoal);
+      createGoal(newGoal);
     } catch (error) {
       console.log('Error creating goal', error);
     } finally {

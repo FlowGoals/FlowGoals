@@ -1,12 +1,19 @@
 import React, { useMemo, useState } from 'react';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import AuthContext from './AuthContext';
+import { loginUser } from '../services/axiosService';
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | undefined>(undefined);
 
-  const login = (userData: User) => {
-    setUser(userData);
+  const login = async (userData: Prisma.UserCreateInput) => {
+    const { username, password } = userData;
+    try {
+      const currentUser = await loginUser({ username, password });
+      setUser(currentUser);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const logout = () => {

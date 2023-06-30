@@ -1,20 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SQLError } from 'expo-sqlite';
 import MainTabs from './MainTabs';
 import { MainStackParamList } from './types';
-import Settings from '../screens/ProfileTab/Settings';
-import FAQ from '../screens/ProfileTab/FAQ';
-import NewGoal from '../screens/GoalsTab/NewGoal';
-import { CREATE_TABLE_GOAL } from '../services/sqliteService';
-import SqliteInterface from '../screens/ProfileTab/SqliteInterface';
-import EditGoal from '../screens/GoalsTab/EditGoal';
+import Settings from '../screens/settingsScreen';
+import FAQ from '../screens/faqScreen';
+import NewGoal from '../screens/newGoalScreen';
+import SqliteInterface from '../screens/sqliteInterfaceScreen';
+import EditGoal from '../screens/editGoalScreen';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
-  useEffect(() => {
-    CREATE_TABLE_GOAL().catch((err: SQLError) => console.log(err.message));
-  }, []);
   return (
     <MainStack.Navigator
       screenOptions={{

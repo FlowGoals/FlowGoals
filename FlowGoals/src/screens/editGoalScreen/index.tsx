@@ -12,7 +12,6 @@ import { useQueryClient } from 'react-query';
 import { Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
 import { EditGoalProp } from '../../navigation/types';
-import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
 import AuthContext from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
