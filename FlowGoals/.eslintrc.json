@@ -69,5 +69,5 @@
     "react/prop-types": "off",
     "linebreak-style": ["error"]
   },
-  "ignorePatterns": ["__tests__/", "__tests__/setup/"]
+  "ignorePatterns": ["__tests__/", "__tests__/setup/", "lib/", "node_modules/"]
 }
