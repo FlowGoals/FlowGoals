@@ -140,6 +140,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const handleLogGoal = () => {
     console.log('log goal');
     queryClient.invalidateQueries('queryGetGoals');
+    closeSwipe();
     setLogModalVisible(false);
   };
 
