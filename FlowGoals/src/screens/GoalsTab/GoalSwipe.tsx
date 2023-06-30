@@ -8,8 +8,8 @@ import {
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
 import { SQLError } from 'expo-sqlite';
+import { Prisma } from '@prisma/client';
 import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
-import { Goal } from '../../interfaces/IGoal';
 import { GoalsScreenProp } from '../../navigation/types';
 
 const styles = StyleSheet.create({
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
 type GoalSwipeProps = {
   children: React.ReactNode
-  goal: Goal
+  goal: Prisma.GoalCreateInput
   navigation: GoalsScreenProp['navigation']
 };
 

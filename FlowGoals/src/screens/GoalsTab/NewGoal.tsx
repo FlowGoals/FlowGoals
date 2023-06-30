@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Layout, TopNav, Text, Button, RadioButton, Picker,
 } from 'react-native-rapi-ui';
@@ -9,10 +9,11 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { useQueryClient } from 'react-query';
-// import { PrismaClient, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
 import { NewGoalProp } from '../../navigation/types';
 import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
+import AuthContext from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
   inputBox: {
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
 });
 
 export default function NewGoal({ navigation } : NewGoalProp) {
+  const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
-  // const prisma = new PrismaClient();
 
   // goal state variables
   const [title, setTitle] = useState('');
@@ -90,26 +91,28 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   };
 
   const handleCreateGoal = async () => {
-    // const goal: Prisma.CreateGoalInput = {
-    //   title,
-    //   startValue: parseFloat(startValue),
-    //   targetValue: parseFloat(targetValue),
-    //   currentValue: parseFloat(startValue),
-    //   interval: parseInterval(interval),
-    //   targetDate,
-    //   createdDate: new Date(),
-    //   color,
-    //   isActive: true,
-    // };
-    // try {
-    //   await MUTATION_ADD_GOAL(goal);
-    // } catch (error) {
-    //   console.log('Error creating goal', error);
-    // } finally {
-    //   // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
-    //   queryClient.invalidateQueries('queryGetGoals');
-    //   navigation.goBack();
-    // }
+    const newGoal: Prisma.GoalCreateInput = {
+      title,
+      startValue: parseFloat(startValue),
+      targetValue: parseFloat(targetValue),
+      currentValue: parseFloat(startValue),
+      interval: parseInterval(interval),
+      targetDate,
+      createdDate: new Date(),
+      color,
+      isActive: true,
+      user: { connect: { id: user?.id } },
+    };
+    try {
+      // await MUTATION_ADD_GOAL(newGoal);
+      console.log('newgoal', newGoal);
+    } catch (error) {
+      console.log('Error creating goal', error);
+    } finally {
+      // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+      queryClient.invalidateQueries('queryGetGoals');
+      navigation.goBack();
+    }
     console.log('create goal');
   };
 

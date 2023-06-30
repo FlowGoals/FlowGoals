@@ -10,13 +10,13 @@ import { useQuery } from 'react-query';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
+import { Prisma } from '@prisma/client';
 import { GoalsScreenProp } from '../../navigation/types';
 import GoalSwipe from './GoalSwipe';
 import GoalShape from './GoalShape';
 
 import { colors } from '../../components/utils/Colors';
 import { QUERY_GET_GOALS } from '../../services/sqliteService';
-import { Goal } from '../../interfaces/IGoal';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,7 +48,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
 
   const {
     data, isError, error,
-  } = useQuery<Goal[]>('queryGetGoals', QUERY_GET_GOALS);
+  } = useQuery<Prisma.GoalCreateInput[]>('queryGetGoals', QUERY_GET_GOALS);
 
   const errorMessage = error instanceof Error ? error.message : 'An error occurred';
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
               <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={{ marginHorizontal: 10 }}>
                   {data.map((goal) => (
-                    <View key={goal.name} style={{ marginBottom: 10 }}>
+                    <View key={goal.title} style={{ marginBottom: 10 }}>
                       <GoalSwipe goal={goal} navigation={navigation}>
                         <Pressable style={styles.preview}>
                           <View style={{ flex: 1 }}>
@@ -110,14 +110,14 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                               size={75}
                               width={15}
                               mainColor={goal.color}
-                              fill={fillVal(goal.start, goal.current, goal.end)}
+                              fill={fillVal(goal.startValue, goal.currentValue, goal.targetValue)}
                             />
                           </View>
                           <View style={{ flex: 1 }}>
-                            <Text style={styles.nameText}>{goal.name}</Text>
+                            <Text style={styles.nameText}>{goal.title}</Text>
                           </View>
                           <View style={{ flex: 0.5, flexDirection: 'row' }}>
-                            <Text>{`${goal.current} / ${goal.end}`}</Text>
+                            <Text>{`${goal.currentValue} / ${goal.endValue}`}</Text>
                           </View>
                         </Pressable>
                       </GoalSwipe>
