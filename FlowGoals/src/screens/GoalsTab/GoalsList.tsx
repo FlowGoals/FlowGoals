@@ -8,8 +8,8 @@ import {
   Text,
   Pressable,
 } from 'react-native';
-import GoalSwipe from './GoalSwipe';
-import GoalShape from './GoalShape';
+import GoalSwipe from './goalSwipe';
+import GoalShape from './goalShape';
 import { colors } from '../../components/utils/Colors';
 import { Goal } from '../../interfaces/IGoal';
 import { GoalsScreenProp } from '../../navigation/types';
