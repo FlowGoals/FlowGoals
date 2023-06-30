@@ -26,7 +26,7 @@ export default function Profile(props: ProfileScreenProp) {
   const { navigation } = props;
 
   const handleFeedback = () => {
-    const feedbackFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLScAp7EEgq7wb-XnkZWu2p_RdrJGMNLd_wBgicflWcJBRe8FvQ/viewform?usp=sf_link';
+    const feedbackFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdSIQGy1wSanMnmxY5_NiRHPbWjbU0HO-egYNgaOi0zKuSjfg/viewform?usp=sf_link';
     Linking.openURL(feedbackFormURL);
   };
   return (
