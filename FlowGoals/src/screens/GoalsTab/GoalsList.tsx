@@ -12,6 +12,7 @@ import GoalSwipe from './GoalSwipe';
 import GoalShape from './GoalShape';
 import { colors } from '../../components/utils/Colors';
 import { Goal } from '../../interfaces/IGoal';
+import { GoalsScreenProp } from '../../navigation/types';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,11 +39,12 @@ const styles = StyleSheet.create({
 
 type GoalsListProps = {
   goals: Goal[]
+  navigation: GoalsScreenProp['navigation']
 };
 
 const fillVal = (cur: number, end: number) => (cur / end) * 100;
 
-export default function GoalsList({ goals }: GoalsListProps) {
+export default function GoalsList({ goals, navigation }: GoalsListProps) {
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -50,7 +52,7 @@ export default function GoalsList({ goals }: GoalsListProps) {
         <ScrollView style={{ marginHorizontal: 10 }}>
           {goals.map((goal) => (
             <View key={goal.name} style={{ marginBottom: 10 }}>
-              <GoalSwipe name={goal.name}>
+              <GoalSwipe goal={goal} navigation={navigation}>
                 <Pressable style={styles.preview}>
                   <View style={{ flex: 1 }}>
                     <GoalShape

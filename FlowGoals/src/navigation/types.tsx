@@ -3,6 +3,7 @@ import {
   CompositeScreenProps,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Prisma } from '@prisma/client';
 
 // not in use until auth
 export type AuthStackParamList = {
@@ -17,6 +18,7 @@ export type MainStackParamList = {
   faq: undefined;
   newgoal: undefined;
   sqliteInterface: undefined;
+  editgoal: { goal: Prisma.GoalCreateInput };
 };
 
 // route params for each Tabs.screen
@@ -50,6 +52,11 @@ MainStackParamList,
 export type SqliteInterfaceProps = NativeStackScreenProps<
 MainStackParamList,
 'sqliteInterface'
+>;
+
+export type EditGoalProp = NativeStackScreenProps<
+MainStackParamList,
+'editgoal'
 >;
 
 // Tabs.screen component props

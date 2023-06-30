@@ -11,7 +11,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import { useQueryClient } from 'react-query';
 import { Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
-import { NewGoalProp } from '../../navigation/types';
+import { EditGoalProp } from '../../navigation/types';
 import { MUTATION_ADD_GOAL } from '../../services/sqliteService';
 import AuthContext from '../../context/AuthContext';
 
@@ -38,26 +38,31 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function NewGoal({ navigation } : NewGoalProp) {
+export default function EditGoal({ navigation, route } : EditGoalProp) {
+  const { goal } = route.params || {};
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
   // goal state variables
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(goal.title);
   // userId: number;
   // created date set on creation
-  const [targetDate, setTargetDate] = useState<Date | null>(null); // or null
-  const [startValue, setStartValue] = useState('0');
+  const [targetDate, setTargetDate] = useState<Date | null>(
+    goal.targetDate instanceof Date ? goal.targetDate : null,
+  );
+  const [startValue, setStartValue] = useState(goal.startValue.toString());
   // currentValue set to startValue on creation
-  const [targetValue, setTargetValue] = useState('');
-  const [interval, setInterval] = useState< string | null>(null); // or null
+  const [targetValue, setTargetValue] = useState(goal.targetValue.toString());
+  const [interval, setInterval] = useState< string | null>(
+    typeof goal.interval === 'number' ? goal.interval.toString() : null,
+  );
   // isActive set to true on creation
-  const [color, setColor] = useState('#1632e5');
+  const [color, setColor] = useState(goal.color);
   // extraData: Prisma.JsonValue;
 
   // radio button state variables
-  const [oneTime, setOneTime] = useState< boolean | null>(null);
-  const [hasEndDate, setHasEndDate] = useState < boolean | null>(null);
+  const [oneTime, setOneTime] = useState< boolean >(goal.interval === null);
+  const [hasEndDate, setHasEndDate] = useState < boolean>(goal.targetDate !== null);
 
   const intervalOptions = [
     { label: 'Day', value: 'day' },
@@ -90,8 +95,8 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     }
   };
 
-  const handleCreateGoal = async () => {
-    const newGoal: Prisma.GoalCreateInput = {
+  const handleUpdateGoal = async () => {
+    const updatedGoal: Prisma.GoalCreateInput = {
       title,
       startValue: parseFloat(startValue),
       targetValue: parseFloat(targetValue),
@@ -104,8 +109,8 @@ export default function NewGoal({ navigation } : NewGoalProp) {
       user: { connect: { id: user?.id } },
     };
     try {
-      // await MUTATION_ADD_GOAL(newGoal);
-      console.log('newgoal', newGoal);
+      // await MUTATION_ADD_GOAL(updatedGoal);
+      console.log('goal', updatedGoal);
     } catch (error) {
       console.log('Error creating goal', error);
     } finally {
@@ -331,7 +336,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               </View>
             )
           )}
-          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleCreateGoal} />
+          <Button text="Update" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleUpdateGoal} />
         </View>
       </ScrollView>
     </Layout>
