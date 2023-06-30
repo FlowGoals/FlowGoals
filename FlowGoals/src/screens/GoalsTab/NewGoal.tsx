@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Layout, TopNav, Text, Button, RadioButton,
+  Layout, TopNav, Text, Button, RadioButton, Picker,
 } from 'react-native-rapi-ui';
 import {
   ScrollView, View, StyleSheet, TextInput,
@@ -49,7 +49,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   const [startValue, setStartValue] = useState('0');
   // currentValue set to startValue on creation
   const [targetValue, setTargetValue] = useState('');
-  const [interval, setInterval] = useState(''); // or null
+  const [interval, setInterval] = useState< string | null>(null); // or null
   // isActive set to true on creation
   const [color, setColor] = useState('#1632e5');
   // extraData: Prisma.JsonValue;
@@ -58,7 +58,12 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   const [oneTime, setOneTime] = useState< boolean | null>(null);
   const [hasEndDate, setHasEndDate] = useState < boolean | null>(null);
 
-  // resets fields when toggling repeat/oneTime
+  const intervalOptions = [
+    { label: 'Day', value: 'day' },
+    { label: 'Week', value: 'week' },
+    { label: 'Month', value: 'month' },
+    { label: 'Year', value: 'year' },
+  ];
 
   const complete = (title
     && targetValue
@@ -69,13 +74,28 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     && hasEndDate !== null
   );
 
+  const parseInterval = (val: string | null) => {
+    switch (val) {
+      case 'day':
+        return 1;
+      case 'week':
+        return 7;
+      case 'month':
+        return 30;
+      case 'year':
+        return 365;
+      default:
+        return null;
+    }
+  };
+
   const handleCreateGoal = async () => {
     // const goal: Prisma.CreateGoalInput = {
     //   title,
     //   startValue: parseFloat(startValue),
     //   targetValue: parseFloat(targetValue),
     //   currentValue: parseFloat(startValue),
-    //   interval: parseFloat(interval),
+    //   interval: parseInterval(interval),
     //   targetDate,
     //   createdDate: new Date(),
     //   color,
@@ -130,7 +150,6 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                 onValueChange={() => {
                   setOneTime(false);
                   // repeat specific values
-                  setInterval('');
                   setStartValue('0');
                 }}
                 style={{ marginHorizontal: 20 }}
@@ -142,7 +161,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                   setOneTime(true);
                   // oneTime specific values
                   setStartValue('');
-                  setInterval('1');
+                  setInterval(null);
                 }}
                 style={{ marginHorizontal: 20 }}
               />
@@ -164,12 +183,13 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     />
                   </View>
                   <Text>/</Text>
-                  <View style={[styles.inlineInputBox, { width: '25%' }]}>
-                    <TextInput
+                  <View style={{ width: '40%', marginLeft: 5 }}>
+                    <Picker
+                      items={intervalOptions}
                       value={interval}
-                      placeholder="month"
-                      onChangeText={(change) => setInterval(change)}
-                      maxLength={20}
+                      placeholder="Select interval"
+                      onValueChange={(change) => setInterval(change)}
+                      backgroundColor={colors.columbiaBlue}
                     />
                   </View>
                 </View>
