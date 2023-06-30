@@ -8,8 +8,10 @@ import {
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
 import { SQLError } from 'expo-sqlite';
-import { Prisma } from '@prisma/client';
+import { Goal } from '@prisma/client';
 import { Ionicons } from '@expo/vector-icons';
+import { Button } from 'react-native-rapi-ui';
+import WheelPicker from 'react-native-wheely';
 import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
 import { GoalsScreenProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
@@ -34,26 +36,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalView: {
-    flex: 0.75,
-    marginTop: 75,
-    marginBottom: 0,
-    marginLeft: 20,
-    marginRight: 20,
-    backgroundColor: colors.white,
+    flex: 0.5,
+    marginHorizontal: 50,
+    marginTop: 100,
+    backgroundColor: colors.gray100,
     borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    padding: 30,
   },
 });
 
 type GoalSwipeProps = {
   children: React.ReactNode
-  goal: Prisma.GoalCreateInput
+  goal: Goal
   navigation: GoalsScreenProp['navigation']
 };
 
@@ -61,13 +55,14 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
   const queryClient = useQueryClient();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  // const [logModalVisible, setLogModalVisible] = useState(false);
+  const [logModalVisible, setLogModalVisible] = useState(false);
+  const [logIndex, setLogIndex] = useState(0);
 
   const showDeleteDialog = () => {
     setDeleteModalVisible(true);
   };
 
-  const handleCancel = () => {
+  const handleCancelDelete = () => {
     setDeleteModalVisible(false);
   };
 
@@ -136,24 +131,79 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     );
   };
 
+  const renderLogModal = (swipeDirection: string) => {
+    if (swipeDirection === 'right') {
+      setLogModalVisible(true);
+    }
+  };
+
+  const handleLogGoal = () => {
+    console.log('log goal');
+    queryClient.invalidateQueries('queryGetGoals');
+    setLogModalVisible(false);
+  };
+
   return (
     <GestureHandlerRootView>
       <Swipeable
         ref={swipeableRowRef}
         friction={2}
         leftThreshold={30}
-        rightThreshold={40}
+        rightThreshold={120}
         renderLeftActions={renderLeftButtons}
         renderRightActions={renderRightActions}
+        onSwipeableWillOpen={renderLogModal}
       >
         <Dialog.Container visible={deleteModalVisible}>
           <Dialog.Title>Delete Goal</Dialog.Title>
           <Dialog.Description>
             Do you want to delete this goal? You cannot undo this action.
           </Dialog.Description>
-          <Dialog.Button label="Cancel" onPress={handleCancel} />
+          <Dialog.Button label="Cancel" onPress={handleCancelDelete} />
           <Dialog.Button label="Delete" onPress={handleDeleteGoal} />
         </Dialog.Container>
+        <View>
+          <Modal
+            animationType="slide"
+            transparent
+            visible={logModalVisible}
+            onRequestClose={() => {
+              setLogModalVisible(!logModalVisible);
+            }}
+          >
+
+            <View style={styles.modalView}>
+              <View style={{ position: 'absolute', top: 10, right: 10 }}>
+                <Ionicons
+                  name="close-outline"
+                  size={40}
+                  color={colors.dark100}
+                  onPress={() => setLogModalVisible(!logModalVisible)}
+                />
+              </View>
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <WheelPicker
+                  selectedIndex={logIndex}
+                  // options={Array.from(
+                  //   { length: goal.targetValue - goal.startValue + 1 },
+                  //   (_, index) => String(goal.startValue + index),
+                  // )}
+                  options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
+                  onChange={(index) => setLogIndex(index)}
+                  containerStyle={{
+                    backgroundColor: colors.columbiaBlue,
+                    borderRadius: 20,
+                    marginBottom: 15,
+                    width: 100,
+                  }}
+                />
+              </View>
+              <View>
+                <Button text="Done" onPress={handleLogGoal} />
+              </View>
+            </View>
+          </Modal>
+        </View>
         {children}
       </Swipeable>
     </GestureHandlerRootView>
