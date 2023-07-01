@@ -82,7 +82,6 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     // invalidate query "queryGetGoals" in cache to trigger refetch
     queryClient.invalidateQueries('queryGetGoals');
     setDeleteModalVisible(false);
-    console.log('delete goal');
   };
 
   const closeSwipe = () => {
@@ -160,7 +159,6 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     closeLogModal();
-    console.log('log goal');
   };
 
   return (

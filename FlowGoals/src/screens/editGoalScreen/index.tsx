@@ -116,7 +116,6 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     navigation.goBack();
-    console.log('update goal');
   };
 
   return (
