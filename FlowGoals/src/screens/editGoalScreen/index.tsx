@@ -13,6 +13,7 @@ import { Prisma } from '@prisma/client';
 import { colors } from '../../components/utils/Colors';
 import { EditGoalProp } from '../../navigation/types';
 import AuthContext from '../../context/AuthContext';
+import { updateGoal } from '../../services/axiosService';
 
 const styles = StyleSheet.create({
   inputBox: {
@@ -73,7 +74,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
   const complete = (title
     && targetValue
     && startValue
-    && interval
+    && (oneTime === !interval)
     && color
     && oneTime !== null
     && hasEndDate !== null
@@ -95,7 +96,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
   };
 
   const handleUpdateGoal = async () => {
-    const updatedGoal: Prisma.GoalCreateInput = {
+    const updatedGoal: Prisma.GoalUpdateInput = {
       title,
       startValue: parseFloat(startValue),
       targetValue: parseFloat(targetValue),
@@ -105,19 +106,17 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
       createdDate: new Date(),
       color,
       isActive: true,
-      user: { connect: { id: user?.id } },
+      user: { connect: { id: user!.id } },
     };
     try {
-      // await MUTATION_ADD_GOAL(updatedGoal);
-      console.log('goal', updatedGoal);
+      await updateGoal(goal.id, updatedGoal);
     } catch (error) {
-      console.log('Error creating goal', error);
-    } finally {
-      // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
-      queryClient.invalidateQueries('queryGetGoals');
-      navigation.goBack();
+      console.log('Error updating goal', error);
     }
-    console.log('create goal');
+    // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    queryClient.invalidateQueries('queryGetGoals');
+    navigation.goBack();
+    console.log('update goal');
   };
 
   return (
