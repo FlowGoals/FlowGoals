@@ -13,8 +13,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Goal } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { GoalsScreenProp } from '../../navigation/types';
-import GoalSwipe from './goalSwipe';
-import GoalShape from './goalShape';
+import GoalSwipe from './GoalSwipe';
+import GoalShape from './GoalShape';
 
 import { colors } from '../../components/utils/Colors';
 import { getGoals } from '../../services/axiosService';
@@ -43,7 +43,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const fillVal = (start: number, cur: number, end: number) => ((cur - start) / (end - start)) * 100;
+const fillVal = (start: number, cur: number, end: number) => ((
+  Math.abs(cur - start) / Math.abs(end - start)) * 100
+);
 
 export default function Goals({ navigation } : GoalsScreenProp) {
   const { user } = useContext(AuthContext);

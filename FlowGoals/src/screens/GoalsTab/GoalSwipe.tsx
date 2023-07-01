@@ -1,20 +1,19 @@
 import React, { useRef, useState } from 'react';
 import {
-  View, StyleSheet, Animated, Modal,
+  View, StyleSheet, Animated, Modal, Text,
 } from 'react-native';
 import {
   RectButton, Swipeable, GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 import Dialog from 'react-native-dialog';
 import { useQueryClient } from 'react-query';
-import { SQLError } from 'expo-sqlite';
-import { Goal } from '@prisma/client';
+import { Prisma, Goal } from '@prisma/client';
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from 'react-native-rapi-ui';
 import WheelPicker from 'react-native-wheely';
-import { MUTATION_DELETE_GOAL } from '../../services/sqliteService';
 import { GoalsScreenProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
+import { deleteGoal, updateGoal } from '../../services/axiosService';
 
 const styles = StyleSheet.create({
   leftAction: {
@@ -36,12 +35,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalView: {
-    flex: 0.5,
-    marginHorizontal: 50,
-    marginTop: 100,
-    backgroundColor: colors.gray100,
+    position: 'absolute',
+    top: '20%',
+    width: '70%',
+    alignSelf: 'center',
+    rowGap: 12,
+    backgroundColor: colors.white,
     borderRadius: 20,
-    padding: 30,
+    borderColor: colors.blue,
+    borderWidth: 5,
+    padding: '5%',
   },
 });
 
@@ -56,8 +59,12 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const queryClient = useQueryClient();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [logModalVisible, setLogModalVisible] = useState(false);
-  const [logIndex, setLogIndex] = useState(0);
-
+  const [logIndex, setLogIndex] = useState(goal.currentValue - goal.startValue);
+  const logOptions = Array.from(
+    { length: Math.abs(goal.targetValue - goal.startValue) + 1 },
+    (_, index) => ((goal.startValue < goal.targetValue)
+      ? goal.startValue + index : goal.startValue - index),
+  ).map(String);
   const showDeleteDialog = () => {
     setDeleteModalVisible(true);
   };
@@ -67,14 +74,11 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   };
 
   const handleDeleteGoal = async () => {
-    const goalName = goal.title;
-    await MUTATION_DELETE_GOAL(goalName)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err: SQLError) => {
-        console.log(err.message);
-      });
+    try {
+      await deleteGoal(goal.id);
+    } catch (error) {
+      console.log('Error deleting goal', error);
+    }
     // invalidate query "queryGetGoals" in cache to trigger refetch
     queryClient.invalidateQueries('queryGetGoals');
     setDeleteModalVisible(false);
@@ -137,11 +141,24 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     }
   };
 
-  const handleLogGoal = () => {
-    console.log('log goal');
-    queryClient.invalidateQueries('queryGetGoals');
-    closeSwipe();
+  const closeLogModal = () => {
     setLogModalVisible(false);
+    closeSwipe();
+  };
+
+  const handleLogGoal = async () => {
+    const newCurrentValue: Prisma.GoalUpdateInput = {
+      currentValue: (goal.targetValue < goal.startValue)
+        ? goal.startValue - logIndex : goal.startValue + logIndex,
+    };
+    try {
+      await updateGoal(goal.id, newCurrentValue);
+    } catch (error) {
+      console.log('Error logging goal', error);
+    }
+    // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    queryClient.invalidateQueries('queryGetGoals');
+    closeLogModal();
   };
 
   return (
@@ -174,28 +191,26 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
           >
 
             <View style={styles.modalView}>
-              <View style={{ position: 'absolute', top: 10, right: 10 }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Log Progress</Text>
+              <View style={{ position: 'absolute', top: 5, right: 5 }}>
                 <Ionicons
                   name="close-outline"
                   size={40}
                   color={colors.dark100}
-                  onPress={() => setLogModalVisible(!logModalVisible)}
+                  onPress={closeLogModal}
                 />
               </View>
               <View style={{ flex: 1, alignItems: 'center' }}>
                 <WheelPicker
                   selectedIndex={logIndex}
-                  // options={Array.from(
-                  //   { length: goal.targetValue - goal.startValue + 1 },
-                  //   (_, index) => String(goal.startValue + index),
-                  // )}
-                  options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
+                  options={logOptions}
                   onChange={(index) => setLogIndex(index)}
                   containerStyle={{
-                    backgroundColor: colors.columbiaBlue,
-                    borderRadius: 20,
-                    marginBottom: 15,
-                    width: 100,
+                    backgroundColor: colors.white,
+                    width: '100%',
+                  }}
+                  selectedIndicatorStyle={{
+                    backgroundColor: colors.columbiaBlue, borderRadius: 20,
                   }}
                 />
               </View>

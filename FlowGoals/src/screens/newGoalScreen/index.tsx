@@ -69,7 +69,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   const complete = (title
     && targetValue
     && startValue
-    && interval
+    && (oneTime === !interval)
     && color
     && oneTime !== null
     && hasEndDate !== null
@@ -104,15 +104,13 @@ export default function NewGoal({ navigation } : NewGoalProp) {
       user: { connect: { id: user!.id } },
     };
     try {
-      createGoal(newGoal);
+      await createGoal(newGoal);
     } catch (error) {
       console.log('Error creating goal', error);
-    } finally {
-      // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
-      queryClient.invalidateQueries('queryGetGoals');
-      navigation.goBack();
     }
-    console.log('create goal');
+    // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    queryClient.invalidateQueries('queryGetGoals');
+    navigation.goBack();
   };
 
   return (
