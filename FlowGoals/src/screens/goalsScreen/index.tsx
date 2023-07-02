@@ -126,8 +126,15 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                           <View style={{ flex: 1 }}>
                             <Text style={styles.nameText}>{goal.title}</Text>
                           </View>
-                          <View style={{ flex: 0.5 }}>
-                            <Text>{`${goal.currentValue} / ${goal.targetValue}`}</Text>
+                          <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text>{goal.currentValue}</Text>
+                            <Ionicons
+                              name="remove-outline"
+                              size={20}
+                              color={colors.dark100}
+                              style={{ transform: [{ rotate: '90deg' }] }}
+                            />
+                            <Text>{goal.targetValue}</Text>
                           </View>
                           <View style={{ flex: 0.2 }}>
                             <Ionicons
