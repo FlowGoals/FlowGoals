@@ -8,7 +8,7 @@ import { MainTabsParamList } from './types';
 
 import Friends from '../screens/friendsScreen';
 import Profile from '../screens/profileScreen';
-import Goals from '../screens/GoalsTab';
+import Goals from '../screens/goalsScreen';
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>();
 function MainTabs() {

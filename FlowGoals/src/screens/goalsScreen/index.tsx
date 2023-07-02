@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 100,
     borderRadius: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.columbiaBlue,
@@ -108,6 +108,13 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                     <View key={goal.title} style={{ marginBottom: 10 }}>
                       <GoalSwipe goal={goal} navigation={navigation}>
                         <Pressable style={styles.preview}>
+                          <View style={{ flex: 0.2 }}>
+                            <Ionicons
+                              name="ellipsis-vertical"
+                              size={20}
+                              color={colors.dark100}
+                            />
+                          </View>
                           <View style={{ flex: 1 }}>
                             <GoalShape
                               size={75}
@@ -119,8 +126,15 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                           <View style={{ flex: 1 }}>
                             <Text style={styles.nameText}>{goal.title}</Text>
                           </View>
-                          <View style={{ flex: 0.5, flexDirection: 'row' }}>
+                          <View style={{ flex: 0.5 }}>
                             <Text>{`${goal.currentValue} / ${goal.targetValue}`}</Text>
+                          </View>
+                          <View style={{ flex: 0.2 }}>
+                            <Ionicons
+                              name="chevron-back"
+                              size={20}
+                              color={colors.dark100}
+                            />
                           </View>
                         </Pressable>
                       </GoalSwipe>
