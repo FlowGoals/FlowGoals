@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     rowGap: 12,
     backgroundColor: colors.white,
     borderRadius: 20,
-    borderColor: colors.blue,
+    borderColor: colors.blue2dark,
     borderWidth: 5,
     padding: '5%',
   },
@@ -167,7 +167,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
         ref={swipeableRowRef}
         friction={2}
         leftThreshold={30}
-        rightThreshold={120}
+        rightThreshold={90}
         renderLeftActions={renderLeftButtons}
         renderRightActions={renderRightActions}
         onSwipeableWillOpen={renderLogModal}
@@ -215,7 +215,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
                 />
               </View>
               <View>
-                <Button text="Done" onPress={handleLogGoal} />
+                <Button color={colors.blue2dark} text="Done" onPress={handleLogGoal} />
               </View>
             </View>
           </Modal>

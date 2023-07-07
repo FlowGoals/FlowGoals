@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import {
-  View, TextInput, Button, StyleSheet,
+  View, TextInput, Image, StyleSheet,
 } from 'react-native';
+import { Button } from 'react-native-rapi-ui';
 import AuthContext from '../../context/AuthContext';
 import { LoginProp } from '../../navigation/types';
 
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    rowGap: 10,
   },
   input: {
     width: '100%',
@@ -18,7 +20,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    marginBottom: 10,
     paddingHorizontal: 10,
   },
 });
@@ -39,6 +40,11 @@ function LoginScreen({ navigation }: LoginProp) {
 
   return (
     <View style={styles.container}>
+      <Image
+        // eslint-disable-next-line global-require
+        source={require('../../assets/icon.png')}
+        style={{ width: 150, height: 150 }}
+      />
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -52,8 +58,8 @@ function LoginScreen({ navigation }: LoginProp) {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="go to sign up" onPress={() => navigation.navigate('Signup')} />
+      <Button text="Login" onPress={handleLogin} />
+      <Button text="go to sign up" onPress={() => navigation.navigate('Signup')} />
     </View>
   );
 }

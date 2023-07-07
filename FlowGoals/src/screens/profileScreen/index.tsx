@@ -35,9 +35,6 @@ export default function Profile(props: ProfileScreenProp) {
         <View style={{ height: 150, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Profile Pic</Text>
         </View>
-        <View style={{ alignItems: 'center', margin: 20 }}>
-          <Text>Display Awards Here</Text>
-        </View>
         <Pressable
           style={styles.container}
           onPress={() => {
@@ -69,7 +66,7 @@ export default function Profile(props: ProfileScreenProp) {
           marginTop: 30,
         }}
         >
-          <Button text="Give us feedback!" style={{ alignSelf: 'center' }} onPress={handleFeedback} />
+          <Button color={colors.blue2dark} text="Give us feedback!" style={{ alignSelf: 'center' }} onPress={handleFeedback} />
         </View>
       </ScrollView>
     </Layout>
