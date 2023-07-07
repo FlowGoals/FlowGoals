@@ -42,7 +42,7 @@ export default function Faq(props: FAQProp) {
       />
       <ScrollView>
         <View style={styles.container}>
-          <Text>Hardcoded text</Text>
+          <Text>Temporary text</Text>
         </View>
       </ScrollView>
     </Layout>

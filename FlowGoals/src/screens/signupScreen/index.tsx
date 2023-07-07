@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import {
-  View, TextInput, Button, StyleSheet,
+  View, TextInput, Image, StyleSheet,
 } from 'react-native';
+import { Button } from 'react-native-rapi-ui';
 import { SignUpProp } from '../../navigation/types';
 import AuthContext from '../../context/AuthContext';
 import { signupUser } from '../../services/axiosService';
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    rowGap: 10,
   },
   input: {
     width: '100%',
@@ -19,7 +21,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    marginBottom: 10,
     paddingHorizontal: 10,
   },
 });
@@ -40,6 +41,11 @@ function SignupScreen({ navigation }: SignUpProp) {
 
   return (
     <View style={styles.container}>
+      <Image
+        // eslint-disable-next-line global-require
+        source={require('../../assets/icon.png')}
+        style={{ width: 150, height: 150 }}
+      />
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -53,8 +59,8 @@ function SignupScreen({ navigation }: SignUpProp) {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Sign Up" onPress={handleSignup} />
-      <Button title="go to login" onPress={() => navigation.navigate('Login')} />
+      <Button text="Sign Up" onPress={handleSignup} />
+      <Button text="go to login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
