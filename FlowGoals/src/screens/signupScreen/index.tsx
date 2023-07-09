@@ -3,6 +3,7 @@ import {
   View, TextInput, Image, StyleSheet,
 } from 'react-native';
 import { Button } from 'react-native-rapi-ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SignUpProp } from '../../navigation/types';
 import AuthContext from '../../context/AuthContext';
 import { signupUser } from '../../services/axiosService';
@@ -33,7 +34,9 @@ function SignupScreen({ navigation }: SignUpProp) {
   const handleSignup = async () => {
     try {
       await signupUser({ username, password });
-      login({ username, password });
+      await login({ username, password });
+      AsyncStorage.setItem('username', username);
+      AsyncStorage.setItem('password', password);
     } catch (err) {
       console.log(err);
     }
