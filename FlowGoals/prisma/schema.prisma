@@ -19,7 +19,7 @@ model User {
   goals       Goal[]
   extraData   Json?    @map("extra_data") // bio
 
-  @@map("user")
+  @@map("users")
 }
 
 model Goal {
@@ -38,5 +38,5 @@ model Goal {
   extraData    Json?     @map("extra_data") // description
 
   @@index([userId])
-  @@map("goal")
+  @@map("goals")
 }
