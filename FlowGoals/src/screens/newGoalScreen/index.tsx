@@ -59,6 +59,11 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   const [oneTime, setOneTime] = useState< boolean | null>(null);
   const [hasEndDate, setHasEndDate] = useState < boolean | null>(null);
 
+  const handleNumChange = (varSetter: (value: string) => void) => (change: string) => {
+    const numericValue = change.replace(/[^0-9]/g, '');
+    varSetter(numericValue);
+  };
+
   const intervalOptions = [
     { label: 'Day', value: 'day' },
     { label: 'Week', value: 'week' },
@@ -177,8 +182,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     <TextInput
                       value={targetValue}
                       placeholder="ex: 4"
-                      onChangeText={(change) => setTargetValue(change)}
-                      maxLength={3}
+                      onChangeText={handleNumChange(setTargetValue)}
                       keyboardType="numeric"
                     />
                   </View>
@@ -249,26 +253,30 @@ export default function NewGoal({ navigation } : NewGoalProp) {
             : (
               <View style={{ rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <View style={{ flexDirection: 'column', rowGap: 10, margin: 5 }}>
+                  <View style={{
+                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                  }}
+                  >
                     <Text>Current</Text>
                     <View style={styles.inputBox}>
                       <TextInput
                         value={startValue}
                         placeholder="ex: 0"
-                        onChangeText={(change) => setStartValue(change)}
-                        maxLength={4}
+                        onChangeText={handleNumChange(setStartValue)}
                         style={{ fontSize: 16 }}
                       />
                     </View>
                   </View>
-                  <View style={{ flexDirection: 'column', rowGap: 10, margin: 5 }}>
+                  <View style={{
+                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                  }}
+                  >
                     <Text>Target</Text>
                     <View style={styles.inputBox}>
                       <TextInput
                         value={targetValue}
                         placeholder="ex: 10"
-                        onChangeText={(change) => setTargetValue(change)}
-                        maxLength={4}
+                        onChangeText={handleNumChange(setTargetValue)}
                         style={{ fontSize: 16 }}
                       />
                     </View>
