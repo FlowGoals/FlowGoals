@@ -11,8 +11,10 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const currentUser = await loginUser({ username, password });
       setUser(currentUser);
+      return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   };
 
