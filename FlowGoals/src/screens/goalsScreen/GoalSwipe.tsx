@@ -18,7 +18,7 @@ import { deleteGoal, updateGoal } from '../../services/axiosService';
 const styles = StyleSheet.create({
   leftAction: {
     flex: 1,
-    backgroundColor: '#98fb98',
+    backgroundColor: colors.green1,
     borderRadius: 10,
     justifyContent: 'center',
   },
@@ -114,11 +114,11 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
 
   const renderLeftButtons = (progress: Animated.AnimatedInterpolation<string | number>) => (
     <View style={{ width: 110, flexDirection: 'row' }}>
-      {renderLeftButton('Edit', '#FFB74D', 128, progress, () => {
+      {renderLeftButton('Edit', colors.orange1, 128, progress, () => {
         closeSwipe();
         navigation.navigate('editgoal', { goal });
       })}
-      {renderLeftButton('Delete', '#FF5252', 64, progress, showDeleteDialog)}
+      {renderLeftButton('Delete', colors.red1, 64, progress, showDeleteDialog)}
     </View>
   );
 

@@ -4,6 +4,10 @@ export const colors = {
   gray200: '#8F9BB3',
   columbiaBlue: '#D6EFFF',
 
+  red1: '#FF5252',
+  orange1: '#FFB74D',
+  green1: '#98fb98',
+
   // from logo
   blue1dark: '#1C2CDE',
   blue1light: '66CCFF',
