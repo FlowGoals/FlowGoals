@@ -33,6 +33,12 @@
         "projectId": "60f2f8f1-f232-40e5-8686-3cfbd182fee5"
       }
     },
-    "owner": "flowgoals"
+    "owner": "flowgoals",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/60f2f8f1-f232-40e5-8686-3cfbd182fee5"
+    }
   }
 }
