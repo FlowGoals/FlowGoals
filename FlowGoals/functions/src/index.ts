@@ -2,13 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import * as express from 'express';
 import * as functions from 'firebase-functions';
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+const prisma = new PrismaClient();
 
 const app = express();
 
