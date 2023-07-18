@@ -3,11 +3,11 @@
 
 generator clientFE {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../../node_modules/.prisma/client"
 }
 generator clientBE {
   provider = "prisma-client-js"
-  output   = "../functions/node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
