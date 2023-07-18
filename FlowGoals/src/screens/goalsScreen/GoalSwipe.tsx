@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {
-  View, StyleSheet, Animated, Modal, Text,
+  View, Animated, Modal, Text,
 } from 'react-native';
 import {
   RectButton, Swipeable, GestureHandlerRootView,
@@ -14,39 +14,7 @@ import WheelPicker from 'react-native-wheely';
 import { GoalsScreenProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
 import { deleteGoal, updateGoal } from '../../services/axiosService';
-
-const styles = StyleSheet.create({
-  leftAction: {
-    flex: 1,
-    backgroundColor: colors.green1,
-    borderRadius: 10,
-    justifyContent: 'center',
-  },
-  actionText: {
-    color: 'white',
-    fontSize: 14,
-    backgroundColor: 'transparent',
-    padding: 5,
-  },
-  rightAction: {
-    alignItems: 'center',
-    flex: 1,
-    borderRadius: 10,
-    justifyContent: 'center',
-  },
-  modalView: {
-    position: 'absolute',
-    top: '20%',
-    width: '70%',
-    alignSelf: 'center',
-    rowGap: 12,
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    borderColor: colors.blue2dark,
-    borderWidth: 5,
-    padding: '5%',
-  },
-});
+import styles from '../../components/utils/styles';
 
 type GoalSwipeProps = {
   children: React.ReactNode
@@ -106,7 +74,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
           style={[styles.rightAction, { backgroundColor: color }]}
           onPress={onPress}
         >
-          <Animated.Text style={styles.actionText}>{text}</Animated.Text>
+          <Animated.Text style={styles.buttonText}>{text}</Animated.Text>
         </RectButton>
       </Animated.View>
     );

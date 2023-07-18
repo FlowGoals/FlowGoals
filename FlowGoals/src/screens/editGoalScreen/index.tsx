@@ -3,7 +3,7 @@ import {
   Layout, TopNav, Text, Button, RadioButton, Picker,
 } from 'react-native-rapi-ui';
 import {
-  ScrollView, View, StyleSheet, TextInput,
+  ScrollView, View, TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,29 +14,7 @@ import { colors } from '../../components/utils/Colors';
 import { EditGoalProp } from '../../navigation/types';
 import AuthContext from '../../context/AuthContext';
 import { updateGoal } from '../../services/axiosService';
-
-const styles = StyleSheet.create({
-  inputBox: {
-    flex: 1,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: colors.columbiaBlue,
-  },
-  inlineInputBox: {
-    padding: 10,
-    borderRadius: 10,
-    marginHorizontal: 5,
-    backgroundColor: colors.columbiaBlue,
-  },
-  dropdown: {
-    padding: 0,
-    borderRadius: 10,
-    marginHorizontal: 5,
-    width: '30%',
-    borderWidth: 0,
-    backgroundColor: colors.columbiaBlue,
-  },
-});
+import styles from '../../components/utils/styles';
 
 export default function EditGoal({ navigation, route } : EditGoalProp) {
   const { goal } = route.params || {};

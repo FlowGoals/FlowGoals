@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  View, ScrollView, Pressable, StyleSheet, Linking,
+  View, ScrollView, Pressable, Linking,
 } from 'react-native';
 import {
   Layout, Text, Button,
@@ -10,19 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileScreenProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
 import AuthContext from '../../context/AuthContext';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 50,
-    padding: 10,
-    margin: 1,
-    backgroundColor: colors.columbiaBlue,
-  },
-});
+import styles from '../../components/utils/styles';
 
 export default function Profile(props: ProfileScreenProp) {
   const { navigation } = props;
@@ -50,7 +38,7 @@ export default function Profile(props: ProfileScreenProp) {
           <Text>Profile Pic</Text>
         </View>
         <Pressable
-          style={styles.container}
+          style={styles.navSection}
           onPress={() => {
             navigation.navigate('settings');
           }}
@@ -62,7 +50,7 @@ export default function Profile(props: ProfileScreenProp) {
           />
         </Pressable>
         <Pressable
-          style={styles.container}
+          style={styles.navSection}
           onPress={() => {
             navigation.navigate('faq');
           }}

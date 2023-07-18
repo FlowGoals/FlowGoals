@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  View, TextInput, Image, StyleSheet, Text,
+  View, TextInput, Image, Text,
 } from 'react-native';
 import { Button } from 'react-native-rapi-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,39 +9,7 @@ import { SignUpProp } from '../../navigation/types';
 import AuthContext from '../../context/AuthContext';
 import { signupUser } from '../../services/axiosService';
 import { colors } from '../../components/utils/Colors';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    rowGap: 10,
-  },
-  inputContainer: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-  },
-  inputError: {
-    borderColor: 'red',
-  },
-  errorText: {
-    color: 'red',
-  },
-  navText: {
-    color: colors.blue1dark,
-    fontSize: 16,
-  },
-});
+import styles from '../../components/utils/styles';
 
 function SignupScreen({ navigation }: SignUpProp) {
   const { login } = useContext(AuthContext);
@@ -105,7 +73,7 @@ function SignupScreen({ navigation }: SignUpProp) {
       />
       <View style={[styles.inputContainer, isUserError && styles.inputError]}>
         <TextInput
-          style={styles.input}
+          style={{ flex: 1 }}
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
@@ -114,7 +82,7 @@ function SignupScreen({ navigation }: SignUpProp) {
       {isUserError && <Text style={styles.errorText}>{userErrorMessage}</Text>}
       <View style={[styles.inputContainer, isPasswordError && styles.inputError]}>
         <TextInput
-          style={styles.input}
+          style={{ flex: 1 }}
           placeholder="Password"
           secureTextEntry={!showPassword}
           value={password}
