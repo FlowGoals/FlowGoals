@@ -21,7 +21,7 @@ export default function Friends(props: FriendsScreenProp) {
         <Section style={{ marginTop: 20 }}>
           <SectionContent>
             <Text fontWeight="bold" style={{ textAlign: 'center' }}>
-              Friends Screen
+              Friends Screen (in progress)
             </Text>
           </SectionContent>
         </Section>

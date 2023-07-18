@@ -45,7 +45,7 @@ export default function Settings(props: SettingsProp) {
             size={20}
           />
         </Pressable>
-        {(process.env.ENV === 'local' || process.env.ENV === 'dev')
+        {process.env.ENV === 'local'
         && (
           <Pressable
             style={styles.navSection}
