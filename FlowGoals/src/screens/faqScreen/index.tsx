@@ -3,24 +3,12 @@ import {
   Layout, Text, TopNav,
 } from 'react-native-rapi-ui';
 import {
-  ScrollView, View, StyleSheet,
+  ScrollView, View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../components/utils/Colors';
 import { FAQProp } from '../../navigation/types';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    padding: 10,
-    margin: 1,
-    backgroundColor: colors.columbiaBlue,
-  },
-});
+import styles from '../../components/utils/styles';
 
 export default function Faq(props: FAQProp) {
   const { navigation } = props;
@@ -41,7 +29,7 @@ export default function Faq(props: FAQProp) {
         height={50}
       />
       <ScrollView>
-        <View style={styles.container}>
+        <View style={styles.navSection}>
           <Text>Temporary text</Text>
         </View>
       </ScrollView>

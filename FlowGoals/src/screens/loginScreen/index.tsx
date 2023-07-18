@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  View, TextInput, Image, StyleSheet, Text,
+  View, TextInput, Image, Text,
 } from 'react-native';
 import { Button } from 'react-native-rapi-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,39 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AuthContext from '../../context/AuthContext';
 import { LoginProp } from '../../navigation/types';
 import { colors } from '../../components/utils/Colors';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    rowGap: 10,
-  },
-  inputContainer: {
-    width: '100%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-  },
-  inputError: {
-    borderColor: 'red',
-  },
-  errorText: {
-    color: 'red',
-  },
-  navText: {
-    color: colors.blue1dark,
-    fontSize: 16,
-  },
-});
+import styles from '../../components/utils/styles';
 
 function LoginScreen({ navigation }: LoginProp) {
   const { login } = useContext(AuthContext);
@@ -75,7 +43,7 @@ function LoginScreen({ navigation }: LoginProp) {
       />
       <View style={[styles.inputContainer, isError && styles.inputError]}>
         <TextInput
-          style={styles.input}
+          style={{ flex: 1 }}
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
@@ -83,7 +51,7 @@ function LoginScreen({ navigation }: LoginProp) {
       </View>
       <View style={[styles.inputContainer, isError && styles.inputError]}>
         <TextInput
-          style={styles.input}
+          style={{ flex: 1 }}
           placeholder="Password"
           secureTextEntry={!showPassword}
           value={password}

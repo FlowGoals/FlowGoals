@@ -3,24 +3,12 @@ import {
   Layout, Text, TopNav,
 } from 'react-native-rapi-ui';
 import {
-  ScrollView, Pressable, StyleSheet,
+  ScrollView, Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../components/utils/Colors';
 import { SettingsProp } from '../../navigation/types';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 50,
-    padding: 10,
-    margin: 1,
-    backgroundColor: colors.columbiaBlue,
-  },
-});
+import styles from '../../components/utils/styles';
 
 export default function Settings(props: SettingsProp) {
   const { navigation } = props;
@@ -42,7 +30,7 @@ export default function Settings(props: SettingsProp) {
       />
       <ScrollView>
         <Pressable
-          style={styles.container}
+          style={styles.navSection}
         >
           <Text>Notifications</Text>
           <Ionicons
@@ -50,7 +38,7 @@ export default function Settings(props: SettingsProp) {
             size={20}
           />
         </Pressable>
-        <Pressable style={styles.container}>
+        <Pressable style={styles.navSection}>
           <Text>Theme</Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -60,7 +48,7 @@ export default function Settings(props: SettingsProp) {
         {(process.env.ENV === 'local' || process.env.ENV === 'dev')
         && (
           <Pressable
-            style={styles.container}
+            style={styles.navSection}
             onPress={() => {
               navigation.navigate('sqliteInterface');
             }}

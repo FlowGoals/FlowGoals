@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import {
-  View, SafeAreaView, Text, StyleSheet, Pressable, ScrollView,
+  View, SafeAreaView, Text, Pressable, ScrollView,
 } from 'react-native';
 import {
   Layout,
@@ -15,33 +15,10 @@ import { AxiosError } from 'axios';
 import { GoalsScreenProp } from '../../navigation/types';
 import GoalSwipe from './GoalSwipe';
 import GoalShape from './GoalShape';
-
 import { colors } from '../../components/utils/Colors';
 import { getGoals } from '../../services/axiosService';
 import AuthContext from '../../context/AuthContext';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: colors.white,
-    paddingTop: 10,
-  },
-  preview: {
-    flex: 1,
-    flexDirection: 'row',
-    height: 100,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.columbiaBlue,
-  },
-  nameText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
+import styles from '../../components/utils/styles';
 
 const fillVal = (start: number, cur: number, end: number) => ((
   Math.abs(cur - start) / Math.abs(end - start)) * 100
@@ -100,7 +77,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
         )}
         { data && data.length !== 0
           ? (
-            <View style={styles.container}>
+            <View style={styles.previewContainer}>
               <StatusBar />
               <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={{ marginHorizontal: 10 }}>
