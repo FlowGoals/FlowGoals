@@ -17,8 +17,13 @@ export default function Profile(props: ProfileScreenProp) {
   const { logout } = useContext(AuthContext);
 
   const handleFeedback = () => {
-    const feedbackFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLScAp7EEgq7wb-XnkZWu2p_RdrJGMNLd_wBgicflWcJBRe8FvQ/viewform?usp=sf_link';
+    const feedbackFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLSdSIQGy1wSanMnmxY5_NiRHPbWjbU0HO-egYNgaOi0zKuSjfg/viewform?usp=sf_link';
     Linking.openURL(feedbackFormURL);
+  };
+
+  const handleProductRoadmap = () => {
+    const ProductRoadmapURL = 'https://docs.google.com/document/d/1uruLjegSCjCdqvrnogQR3SohAYFSfGSEn1fxB539slk/edit?usp=sharing';
+    Linking.openURL(ProductRoadmapURL);
   };
 
   const handleLogout = async () => {
@@ -78,6 +83,15 @@ export default function Profile(props: ProfileScreenProp) {
         }}
         >
           <Button color={colors.blue2dark} text="Give us feedback!" style={{ alignSelf: 'center' }} onPress={handleFeedback} />
+        </View>
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 30,
+        }}
+        >
+          <Button color={colors.blue2dark} text="Product Roadmap" style={{ alignSelf: 'center' }} onPress={handleProductRoadmap} />
         </View>
       </ScrollView>
     </Layout>
