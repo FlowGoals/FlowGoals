@@ -49,14 +49,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     { label: 'Year', value: 'year' },
   ];
 
-  const complete = (title
-    && targetValue
-    && startValue
-    && (oneTime === !interval)
-    && color
-    && oneTime !== null
-    && hasEndDate !== null
-  );
+  const [isCreating, setIsCreating] = useState(false);
 
   const parseInterval = (val: string | null) => {
     switch (val) {
@@ -74,6 +67,8 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   };
 
   const handleCreateGoal = async () => {
+    // prevent multiple goal creations
+    setIsCreating(true);
     const newGoal: Prisma.GoalCreateInput = {
       title,
       startValue: parseFloat(startValue),
@@ -118,9 +113,9 @@ export default function NewGoal({ navigation } : NewGoalProp) {
           <View style={styles.inputBox}>
             <TextInput
               value={title}
-              placeholder="ex: Bench 225"
+              placeholder="ex: Learn how to play guitar"
               onChangeText={(change) => setTitle(change)}
-              maxLength={15}
+              maxLength={30}
               style={{ fontSize: 16 }}
             />
           </View>
@@ -232,7 +227,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               <View style={{ rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{
-                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                    flexDirection: 'column', rowGap: 10, marginRight: 10, width: '20%',
                   }}
                   >
                     <Text>Current</Text>
@@ -246,7 +241,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     </View>
                   </View>
                   <View style={{
-                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                    flexDirection: 'column', rowGap: 10, width: '20%',
                   }}
                   >
                     <Text>Target</Text>
@@ -314,7 +309,19 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               </View>
             )
           )}
-          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleCreateGoal} />
+          <Button
+            text="Create"
+            style={{ alignItems: 'center', zIndex: -1 }}
+            disabled={!(title
+    && targetValue
+    && startValue
+    && (oneTime === !interval)
+    && color
+    && oneTime !== null
+    && hasEndDate !== null
+    && !isCreating)}
+            onPress={handleCreateGoal}
+          />
         </View>
       </ScrollView>
     </Layout>

@@ -54,14 +54,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
     { label: 'Year', value: 'year' },
   ];
 
-  const complete = (title
-    && targetValue
-    && startValue
-    && (oneTime === !interval)
-    && color
-    && oneTime !== null
-    && hasEndDate !== null
-  );
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const parseInterval = (val: string | null) => {
     switch (val) {
@@ -79,6 +72,8 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
   };
 
   const handleUpdateGoal = async () => {
+    // prevent multiple goal updates
+    setIsUpdating(true);
     const updatedGoal: Prisma.GoalUpdateInput = {
       title,
       startValue: parseFloat(startValue),
@@ -128,7 +123,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
               value={title}
               placeholder="ex: Bench 225"
               onChangeText={(change) => setTitle(change)}
-              maxLength={15}
+              maxLength={30}
               style={{ fontSize: 16 }}
             />
           </View>
@@ -322,7 +317,20 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
               </View>
             )
           )}
-          <Button text="Update" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleUpdateGoal} />
+          <Button
+            text="Update"
+            style={{ alignItems: 'center', zIndex: -1 }}
+            disabled={!(title
+    && targetValue
+    && startValue
+    && (oneTime === !interval)
+    && color
+    && oneTime !== null
+    && hasEndDate !== null
+    && !isUpdating
+            )}
+            onPress={handleUpdateGoal}
+          />
         </View>
       </ScrollView>
     </Layout>

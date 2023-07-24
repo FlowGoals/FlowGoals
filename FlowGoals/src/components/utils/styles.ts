@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
     paddingHorizontal: 5,
-    justifyContent: 'space-between',
     alignItems: 'center',
+    columnGap: 10,
     backgroundColor: colors.columbiaBlue,
   },
   nameText: {
