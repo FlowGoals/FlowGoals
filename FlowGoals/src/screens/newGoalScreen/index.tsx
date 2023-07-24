@@ -126,7 +126,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
           <View style={styles.inputBox}>
             <TextInput
               value={title}
-              placeholder="ex: Bench 225"
+              placeholder="ex: Learn how to play guitar"
               onChangeText={(change) => setTitle(change)}
               maxLength={30}
               style={{ fontSize: 16 }}
@@ -240,10 +240,10 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               <View style={{ rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{
-                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                    flexDirection: 'column', rowGap: 10, marginRight: 10, width: '40%',
                   }}
                   >
-                    <Text>Current</Text>
+                    <Text>Current progress</Text>
                     <View style={styles.inputBox}>
                       <TextInput
                         value={startValue}
@@ -254,7 +254,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
                     </View>
                   </View>
                   <View style={{
-                    flexDirection: 'column', rowGap: 10, margin: 5, width: '20%',
+                    flexDirection: 'column', rowGap: 10, width: '20%',
                   }}
                   >
                     <Text>Target</Text>
