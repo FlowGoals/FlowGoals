@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  View, TextInput, Image, Text,
+  View, TextInput, Image, Text, KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-rapi-ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -65,41 +65,43 @@ function SignupScreen({ navigation }: SignUpProp) {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <View style={styles.container}>
+        <Image
         // eslint-disable-next-line global-require
-        source={require('../../assets/icon.png')}
-        style={{ width: 150, height: 150 }}
-      />
-      <View style={[styles.inputContainer, isUserError && styles.inputError]}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
+          source={require('../../assets/icon.png')}
+          style={{ width: 150, height: 150 }}
         />
-      </View>
-      {isUserError && <Text style={styles.errorText}>{userErrorMessage}</Text>}
-      <View style={[styles.inputContainer, isPasswordError && styles.inputError]}>
-        <TextInput
-          style={{ flex: 1 }}
-          placeholder="Password"
-          secureTextEntry={!showPassword}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <Ionicons
-          name={showPassword ? 'eye-off' : 'eye'}
-          size={24}
-          color="#888"
-          onPress={() => setShowPassword(!showPassword)}
-        />
-      </View>
-      {isPasswordError
+        <View style={[styles.inputContainer, isUserError && styles.inputError]}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+        </View>
+        {isUserError && <Text style={styles.errorText}>{userErrorMessage}</Text>}
+        <View style={[styles.inputContainer, isPasswordError && styles.inputError]}>
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Password"
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <Ionicons
+            name={showPassword ? 'eye-off' : 'eye'}
+            size={24}
+            color="#888"
+            onPress={() => setShowPassword(!showPassword)}
+          />
+        </View>
+        {isPasswordError
       && <Text style={styles.errorText}>{passErrorMessage}</Text>}
-      <Button text="Sign Up" onPress={handleSignup} color={colors.blue1dark} />
-      <Text style={styles.navText} onPress={() => navigation.navigate('Login')}>Go to login</Text>
-    </View>
+        <Button text="Sign Up" onPress={handleSignup} color={colors.blue1dark} />
+        <Text style={styles.navText} onPress={() => navigation.navigate('Login')}>Go to login</Text>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 

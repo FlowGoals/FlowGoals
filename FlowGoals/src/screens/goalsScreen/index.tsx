@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import { Goal } from '@prisma/client';
 import { AxiosError } from 'axios';
+import tinycolor from 'tinycolor2';
 import { GoalsScreenProp } from '../../navigation/types';
 import GoalSwipe from './GoalSwipe';
 import GoalShape from './GoalShape';
@@ -23,6 +24,8 @@ import styles from '../../components/utils/styles';
 const fillVal = (start: number, cur: number, end: number) => ((
   Math.abs(cur - start) / Math.abs(end - start)) * 100
 );
+
+const backgroundColor = (mainColor: string) => (tinycolor(mainColor).lighten(30).toHexString());
 
 export default function Goals({ navigation } : GoalsScreenProp) {
   const { user } = useContext(AuthContext);
@@ -87,35 +90,51 @@ export default function Goals({ navigation } : GoalsScreenProp) {
                         <Pressable style={styles.preview}>
                           <View style={{ flex: 0.2 }}>
                             <Ionicons
-                              name="ellipsis-vertical"
+                              name="chevron-back"
                               size={20}
                               color={colors.dark100}
                             />
                           </View>
-                          <View style={{ flex: 1 }}>
+                          <View style={{ flex: 0.8 }}>
                             <GoalShape
                               size={75}
                               width={15}
                               mainColor={goal.color}
+                              bgColor={backgroundColor(goal.color)}
                               fill={fillVal(goal.startValue, goal.currentValue, goal.targetValue)}
                             />
                           </View>
                           <View style={{ flex: 1 }}>
                             <Text style={styles.nameText}>{goal.title}</Text>
                           </View>
-                          <View style={{ flex: 0.5, flexDirection: 'row', alignItems: 'center' }}>
-                            <Text>{goal.currentValue}</Text>
+                          <View style={{
+                            flex: 0.6, height: 75, justifyContent: 'center', alignItems: 'center',
+                          }}
+                          >
+                            <View style={{
+                              position: 'absolute', bottom: 1, left: 1, borderRadius: 20, backgroundColor: backgroundColor(goal.color), width: 30, height: 30, justifyContent: 'center', alignItems: 'center',
+                            }}
+                            >
+                              <Text style={{ color: colors.white }}>{goal.currentValue}</Text>
+                            </View>
                             <Ionicons
-                              name="remove-outline"
-                              size={20}
+                              name="trending-up-outline"
+                              size={24}
                               color={colors.dark100}
-                              style={{ transform: [{ rotate: '90deg' }] }}
                             />
-                            <Text>{goal.targetValue}</Text>
+                            <View style={{
+                              position: 'absolute', top: 1, right: 1, borderRadius: 20, backgroundColor: goal.color, width: 30, height: 30, justifyContent: 'center', alignItems: 'center',
+                            }}
+                            >
+                              <Text style={{ color: colors.white }}>
+                                {goal.targetValue}
+
+                              </Text>
+                            </View>
                           </View>
                           <View style={{ flex: 0.2 }}>
                             <Ionicons
-                              name="chevron-back"
+                              name="chevron-forward"
                               size={20}
                               color={colors.dark100}
                             />

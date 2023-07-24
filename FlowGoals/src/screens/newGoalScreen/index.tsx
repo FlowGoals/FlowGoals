@@ -58,6 +58,8 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     && hasEndDate !== null
   );
 
+  const [isCreating, setIsCreating] = useState(false);
+
   const parseInterval = (val: string | null) => {
     switch (val) {
       case 'day':
@@ -74,6 +76,11 @@ export default function NewGoal({ navigation } : NewGoalProp) {
   };
 
   const handleCreateGoal = async () => {
+    // prevent multiple goal creations
+    if (isCreating) {
+      return;
+    }
+    setIsCreating(true);
     const newGoal: Prisma.GoalCreateInput = {
       title,
       startValue: parseFloat(startValue),
@@ -91,6 +98,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     } catch (error) {
       console.log('Error creating goal', error);
     }
+    setIsCreating(false);
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     navigation.goBack();
@@ -120,7 +128,7 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               value={title}
               placeholder="ex: Bench 225"
               onChangeText={(change) => setTitle(change)}
-              maxLength={15}
+              maxLength={30}
               style={{ fontSize: 16 }}
             />
           </View>

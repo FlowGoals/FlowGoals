@@ -63,6 +63,8 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
     && hasEndDate !== null
   );
 
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const parseInterval = (val: string | null) => {
     switch (val) {
       case 'day':
@@ -79,6 +81,11 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
   };
 
   const handleUpdateGoal = async () => {
+    // prevent multiple goal updates
+    if (isUpdating) {
+      return;
+    }
+    setIsUpdating(true);
     const updatedGoal: Prisma.GoalUpdateInput = {
       title,
       startValue: parseFloat(startValue),
@@ -99,6 +106,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
     } catch (error) {
       console.log('Error updating goal', error);
     }
+    setIsUpdating(false);
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     navigation.goBack();
@@ -128,7 +136,7 @@ export default function EditGoal({ navigation, route } : EditGoalProp) {
               value={title}
               placeholder="ex: Bench 225"
               onChangeText={(change) => setTitle(change)}
-              maxLength={15}
+              maxLength={30}
               style={{ fontSize: 16 }}
             />
           </View>
