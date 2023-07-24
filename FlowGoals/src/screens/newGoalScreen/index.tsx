@@ -49,15 +49,6 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     { label: 'Year', value: 'year' },
   ];
 
-  const complete = (title
-    && targetValue
-    && startValue
-    && (oneTime === !interval)
-    && color
-    && oneTime !== null
-    && hasEndDate !== null
-  );
-
   const [isCreating, setIsCreating] = useState(false);
 
   const parseInterval = (val: string | null) => {
@@ -77,9 +68,6 @@ export default function NewGoal({ navigation } : NewGoalProp) {
 
   const handleCreateGoal = async () => {
     // prevent multiple goal creations
-    if (isCreating) {
-      return;
-    }
     setIsCreating(true);
     const newGoal: Prisma.GoalCreateInput = {
       title,
@@ -98,7 +86,6 @@ export default function NewGoal({ navigation } : NewGoalProp) {
     } catch (error) {
       console.log('Error creating goal', error);
     }
-    setIsCreating(false);
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     navigation.goBack();
@@ -240,10 +227,10 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               <View style={{ rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{
-                    flexDirection: 'column', rowGap: 10, marginRight: 10, width: '40%',
+                    flexDirection: 'column', rowGap: 10, marginRight: 10, width: '20%',
                   }}
                   >
-                    <Text>Current progress</Text>
+                    <Text>Current</Text>
                     <View style={styles.inputBox}>
                       <TextInput
                         value={startValue}
@@ -322,7 +309,19 @@ export default function NewGoal({ navigation } : NewGoalProp) {
               </View>
             )
           )}
-          <Button text="Create" style={{ alignItems: 'center', zIndex: -1 }} disabled={!complete} onPress={handleCreateGoal} />
+          <Button
+            text="Create"
+            style={{ alignItems: 'center', zIndex: -1 }}
+            disabled={!(title
+    && targetValue
+    && startValue
+    && (oneTime === !interval)
+    && color
+    && oneTime !== null
+    && hasEndDate !== null
+    && !isCreating)}
+            onPress={handleCreateGoal}
+          />
         </View>
       </ScrollView>
     </Layout>
