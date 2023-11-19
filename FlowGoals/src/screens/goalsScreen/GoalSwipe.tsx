@@ -67,8 +67,17 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   };
 
   const handleCompleteGoal = async () => {
-    // complete goal
-    // completion animation
+    const completedGoal: Prisma.GoalUpdateInput = {
+      currentValue: goal.targetValue,
+      isActive: false,
+    };
+    try {
+      await updateGoal(goal.id, completedGoal);
+    } catch (error) {
+      console.log('Error updating goal', error);
+    }
+    // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    queryClient.invalidateQueries('queryGetGoals');
     setCompleteModalVisible(false);
     closeLogModal();
   };

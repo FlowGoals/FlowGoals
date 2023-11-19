@@ -32,6 +32,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
   const {
     data, isError, error,
   } = useQuery<Goal[]>('queryGetGoals', () => getGoals(user!.id));
+  const currentGoals = data?.filter((goal) => goal.isActive);
 
   useEffect(() => {
     const errorMessage = error instanceof AxiosError ? error.message : 'An error occurred';
@@ -81,13 +82,13 @@ export default function Goals({ navigation } : GoalsScreenProp) {
             </SafeAreaView>
           </View>
         )}
-        { data && data.length !== 0
+        { currentGoals && currentGoals.length !== 0
           ? (
             <View style={styles.previewContainer}>
               <StatusBar />
               <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={{ marginHorizontal: 10 }}>
-                  {data.map((goal) => (
+                  {currentGoals.map((goal) => (
                     <View key={goal.title} style={{ marginBottom: 10 }}>
                       <GoalSwipe goal={goal} navigation={navigation}>
                         <Pressable style={styles.preview}>

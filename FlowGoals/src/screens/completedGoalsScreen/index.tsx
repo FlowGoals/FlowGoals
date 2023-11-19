@@ -23,7 +23,7 @@ export default function CompletedGoals({ navigation }: CompletedGoalsProp) {
     data, isError,
   } = useQuery<Goal[]>('queryGetGoals', () => getGoals(user!.id));
   // add '!' for proper functionality
-  const completed = data?.filter((goal) => !goal.isActive);
+  const completedGoals = data?.filter((goal) => !goal.isActive);
 
   return (
     <Layout backgroundColor={colors.white}>
@@ -49,7 +49,7 @@ export default function CompletedGoals({ navigation }: CompletedGoalsProp) {
             </SafeAreaView>
           </View>
         )}
-        {completed && completed.length !== 0 ? (completed.map((goal) => (
+        {completedGoals && completedGoals.length !== 0 ? (completedGoals.map((goal) => (
           <View key={goal.title} style={{ marginTop: 10 }}>
             <Pressable style={{
               ...styles.preview,
