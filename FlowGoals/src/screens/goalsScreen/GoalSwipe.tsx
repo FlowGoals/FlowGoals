@@ -27,6 +27,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   const queryClient = useQueryClient();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [logModalVisible, setLogModalVisible] = useState(false);
+  const [completeModalVisible, setCompleteModalVisible] = useState(false);
   const [logIndex, setLogIndex] = useState(goal.currentValue - goal.startValue);
   const logOptions = Array.from(
     { length: Math.abs(goal.targetValue - goal.startValue) + 1 },
@@ -35,6 +36,15 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
   ).map(String);
   const showDeleteDialog = () => {
     setDeleteModalVisible(true);
+  };
+
+  const closeSwipe = () => {
+    swipeableRowRef.current?.close();
+  };
+
+  const closeLogModal = () => {
+    setLogModalVisible(false);
+    closeSwipe();
   };
 
   const handleCancelDelete = () => {
@@ -52,8 +62,24 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     setDeleteModalVisible(false);
   };
 
-  const closeSwipe = () => {
-    swipeableRowRef.current?.close();
+  const handleCancelComplete = () => {
+    setCompleteModalVisible(false);
+  };
+
+  const handleCompleteGoal = async () => {
+    const completedGoal: Prisma.GoalUpdateInput = {
+      currentValue: goal.targetValue,
+      isActive: false,
+    };
+    try {
+      await updateGoal(goal.id, completedGoal);
+    } catch (error) {
+      console.log('Error updating goal', error);
+    }
+    // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
+    queryClient.invalidateQueries('queryGetGoals');
+    setCompleteModalVisible(false);
+    closeLogModal();
   };
 
   const renderLeftButton = (
@@ -109,11 +135,6 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     }
   };
 
-  const closeLogModal = () => {
-    setLogModalVisible(false);
-    closeSwipe();
-  };
-
   const handleLogGoal = async () => {
     const newCurrentValue: Prisma.GoalUpdateInput = {
       currentValue: (goal.targetValue < goal.startValue)
@@ -127,6 +148,15 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
     // invalidate query "queryGetGoals" in cache to trigger refetch on GoalsScreen
     queryClient.invalidateQueries('queryGetGoals');
     closeLogModal();
+  };
+
+  const handleDoneClick = () => {
+    if (((goal.targetValue < goal.startValue)
+      ? goal.startValue - logIndex : goal.startValue + logIndex) === goal.targetValue) {
+      setCompleteModalVisible(true);
+    } else {
+      handleLogGoal();
+    }
   };
 
   return (
@@ -157,7 +187,14 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
               setLogModalVisible(!logModalVisible);
             }}
           >
-
+            <Dialog.Container visible={completeModalVisible}>
+              <Dialog.Title>Mark goal as complete?</Dialog.Title>
+              <Dialog.Description>
+                Marking this goal as complete will move it to your completed goals.
+              </Dialog.Description>
+              <Dialog.Button label="Cancel" onPress={handleCancelComplete} />
+              <Dialog.Button label="Confirm" onPress={handleCompleteGoal} />
+            </Dialog.Container>
             <View style={styles.modalView}>
               <Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Log Progress</Text>
               <View style={{ position: 'absolute', top: 5, right: 5 }}>
@@ -183,7 +220,7 @@ function GoalSwipe({ children, goal, navigation }: GoalSwipeProps) {
                 />
               </View>
               <View>
-                <Button color={colors.blue2dark} text="Done" onPress={handleLogGoal} />
+                <Button color={colors.blue2dark} text="Done" onPress={handleDoneClick} />
               </View>
             </View>
           </Modal>

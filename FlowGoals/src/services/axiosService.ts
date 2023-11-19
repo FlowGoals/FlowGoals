@@ -12,6 +12,7 @@ const signupUser = async (user: Prisma.UserCreateInput) => {
 };
 
 const loginUser = async (user: Prisma.UserCreateInput) => {
+  console.log(process.env.API_URL);
   const { username, password } = user;
   const res = await axios.put(
     `${process.env.API_URL}/users`,

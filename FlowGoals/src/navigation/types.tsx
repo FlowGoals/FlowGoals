@@ -17,6 +17,7 @@ export type MainStackParamList = {
   settings: undefined;
   faq: undefined;
   newgoal: undefined;
+  completedgoals: undefined;
   sqliteInterface: undefined;
   editgoal: { goal: Goal };
 };
@@ -57,6 +58,11 @@ MainStackParamList,
 export type EditGoalProp = NativeStackScreenProps<
 MainStackParamList,
 'editgoal'
+>;
+
+export type CompletedGoalsProp = NativeStackScreenProps<
+MainStackParamList,
+'completedgoals'
 >;
 
 // Tabs.screen component props
