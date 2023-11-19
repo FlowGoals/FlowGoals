@@ -7,6 +7,7 @@ import FAQ from '../screens/faqScreen';
 import NewGoal from '../screens/newGoalScreen';
 import SqliteInterface from '../screens/sqliteInterfaceScreen';
 import EditGoal from '../screens/editGoalScreen';
+import CompletedGoals from '../screens/completedGoalsScreen';
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 function Main() {
@@ -28,6 +29,11 @@ function Main() {
       <MainStack.Screen
         name="editgoal"
         component={EditGoal}
+        options={{ animation: 'fade_from_bottom' }}
+      />
+      <MainStack.Screen
+        name="completedgoals"
+        component={CompletedGoals}
         options={{ animation: 'fade_from_bottom' }}
       />
 

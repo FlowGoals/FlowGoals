@@ -46,7 +46,7 @@ export default function Goals({ navigation } : GoalsScreenProp) {
         middleContent="Dashboard"
         leftContent={(
           <Ionicons
-            name="grid"
+            name="checkmark-done-sharp"
             size={20}
             color={colors.dark100}
           />
@@ -61,6 +61,9 @@ export default function Goals({ navigation } : GoalsScreenProp) {
         height={50}
         rightAction={() => {
           navigation.navigate('newgoal');
+        }}
+        leftAction={() => {
+          navigation.navigate('completedgoals');
         }}
       />
       <View
